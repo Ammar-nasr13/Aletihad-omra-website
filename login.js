@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', function () {
         try {
             const sessionData = JSON.parse(session);
             if (sessionData.loggedIn && (Date.now() - sessionData.timestamp < 2 * 60 * 60 * 1000)) {
-                window.location.replace('admin.html');
+                window.location.replace('admin');
                 return;
             }
         } catch (e) {
@@ -66,7 +66,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     }));
                     
                     // Redirect to dashboard
-                    window.location.replace('admin.html');
+                    window.location.replace('admin');
                 } else {
                     showError(result.message || 'اسم المستخدم أو كلمة المرور غير صحيحة.');
                     setLoading(false);

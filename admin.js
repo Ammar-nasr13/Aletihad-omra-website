@@ -327,7 +327,7 @@ document.addEventListener('DOMContentLoaded', function () {
         logoutBtn.addEventListener('click', function (e) {
             e.preventDefault();
             localStorage.removeItem('admin_session');
-            window.location.replace('login.html');
+            window.location.replace('login');
         });
     }
 

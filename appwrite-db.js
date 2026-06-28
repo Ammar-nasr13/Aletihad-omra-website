@@ -118,8 +118,7 @@ const DB = {
             ...bookingData,
             beds: parseInt(bookingData.beds) || 0,
             seats_male: parseInt(bookingData.seats_male) || 0,
-            seats_female: parseInt(bookingData.seats_female) || 0,
-            created_at: new Date().toISOString()
+            seats_female: parseInt(bookingData.seats_female) || 0
         };
 
         if (this.isAppwriteActive()) {
@@ -139,6 +138,7 @@ const DB = {
         }
         
         bookingRecord.$id = id;
+        bookingRecord.created_at = new Date().toISOString();
         return localStorageDB.add('bookings_db', bookingRecord);
     },
     async getBookings() {
@@ -183,8 +183,7 @@ const DB = {
             name: reviewData.name,
             rating: parseInt(reviewData.rating) || 5,
             comment: reviewData.comment,
-            status: 'pending', // Default is pending approval
-            created_at: new Date().toISOString()
+            status: 'pending' // Default is pending approval
         };
 
         if (this.isAppwriteActive()) {
@@ -204,6 +203,7 @@ const DB = {
         }
         
         reviewRecord.$id = id;
+        reviewRecord.created_at = new Date().toISOString();
         return localStorageDB.add('reviews_db', reviewRecord);
     },
     async getApprovedReviews() {
@@ -272,8 +272,7 @@ const DB = {
                                 name: seedReview.name,
                                 rating: parseInt(seedReview.rating) || 5,
                                 comment: seedReview.comment,
-                                status: seedReview.status,
-                                created_at: seedReview.created_at
+                                status: seedReview.status
                             }
                         );
                     }
