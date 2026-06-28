@@ -200,6 +200,9 @@ window.showSuccessModal = function(title, message, whatsappUrl = null) {
             }
 
             if (bookBtn) bookBtn.addEventListener('click', () => openModal());
+            document.querySelectorAll('.book-now-trigger').forEach(btn => {
+                btn.addEventListener('click', () => openModal());
+            });
             if (closeBtn) closeBtn.addEventListener('click', closeModal);
 
             // Restrict date input to future dates only (today and onwards)
@@ -372,7 +375,7 @@ ${bookingData.notes ? `*ملاحظات إضافية:* ${bookingData.notes}` : ''
                             <div class="review-header">
                                 <div class="review-avatar">${initial}</div>
                                 <div class="review-user-info">
-                                    <h4 class="review-username">${review.name}</h4>
+                                    <div class="review-username">${review.name}</div>
                                     <div class="review-verified"><i class="fa-solid fa-circle-check"></i> عميل مؤكد</div>
                                 </div>
                                 <div class="review-stars">${starsHtml}</div>

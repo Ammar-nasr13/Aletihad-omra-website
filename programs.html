@@ -31,9 +31,11 @@
     <meta property="og:image" content="https://etihadalmdina.com/images/logo.png">
 
     <!-- Fonts & Icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Almarai:wght@300;400;700;800&family=Cairo:wght@300;400;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" media="print" onload="this.media='all'">
+    <link rel="stylesheet" href="css/styles.css">
 
     <!-- Structured Data: ItemList and Service Schemas -->
     <script type="application/ld+json">
@@ -97,7 +99,7 @@
     <nav class="navbar" id="navbar">
         <div class="nav-container container">
             <a href="/" class="logo">
-                <img src="images/logo.png" alt="شعار الاتحاد" class="logo-img" />
+                <img src="images/logo.png" alt="شعار الاتحاد" class="logo-img" width="52" height="44" />
                 <span>الاتحاد لخدمات المعتمرين</span>
             </a>
             <ul class="nav-menu" id="navMenu">
@@ -105,13 +107,14 @@
                 <li><a href="programs" class="active"><i class="fa-solid fa-list-check" aria-hidden="true"></i>برامجنا</a></li>
                 <li><a href="manasek" aria-label="مناسك العمرة"><i class="fa-solid fa-kaaba" aria-hidden="true"></i>مناسك العمرة</a></li>
                 <li><a href="tel:0550784878"><i class="fa-solid fa-phone" aria-hidden="true"></i>تواصل معنا</a></li>
-            </ul>
+            <button class="btn-header-book book-now-trigger" type="button">احجز الآن</button>
             <button class="menu-toggle" id="menuToggle">☰</button>
         </div>
     </nav>
 
-    <!-- Page Header (Hero) -->
-    <header class="page-hero">
+    <main>
+        <!-- Page Header (Hero) -->
+        <header class="page-hero">
         <div class="container">
             <h1>برامج العمرة المتكاملة</h1>
             <p>اختر من بين باقاتنا المصممة بعناية لتناسب احتياجاتك وتضمن لك رحلة إيمانية مريحة وآمنة</p>
@@ -247,7 +250,7 @@
                 </div>
             </div>
         </div>
-    </section>
+    </main>
 
     <!-- Booking Modal -->
     <div id="bookingModal" class="modal" role="dialog" aria-hidden="true">
@@ -365,7 +368,7 @@
     <footer class="footer">
         <div class="container footer-grid">
             <div class="footer-brand">
-                <a href="/" class="logo-footer"><img src="images/logo.png" alt="شعار الاتحاد" class="logo-img" loading="lazy" /></a>
+                <a href="/" class="logo-footer"><img src="images/logo.png" alt="شعار الاتحاد" class="logo-img" loading="lazy" width="60" height="51" /></a>
                 <h3 class="footer-title">الاتحاد لخدمات المعتمرين</h3>
                 <p class="footer-desc">خبرة تفوق 10 سنوات في تنظيم برامج العمرة من المدينة إلى مكة مع باقات متكاملة ومتابعة ميدانية لضمان رحلة مريحة وآمنة.</p>
             </div>
@@ -422,8 +425,8 @@
             <span>اتصل بنا</span>
         </a>
     </nav>
-    <script src="https://cdn.jsdelivr.net/npm/appwrite@14.0.0"></script>
-    <script src="appwrite-db.js"></script>
-    <script src="main.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/appwrite@14.0.0" defer></script>
+    <script src="js/appwrite-db.js" defer></script>
+    <script src="js/main.js" defer></script>
 </body>
 </html>

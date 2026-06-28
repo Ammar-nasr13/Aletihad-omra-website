@@ -39,9 +39,11 @@
     <meta property="twitter:image" content="https://etihadalmdina.com/images/logo.png">
 
     <!-- Fonts & Icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Almarai:wght@300;400;700;800&family=Cairo:wght@300;400;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" media="print" onload="this.media='all'">
+    <link rel="stylesheet" href="css/styles.css">
 
     <!-- Structured Data: TravelAgency -->
     <script type="application/ld+json">
@@ -111,7 +113,7 @@
     <nav class="navbar" id="navbar">
         <div class="nav-container container">
             <a href="#" class="logo">
-                <img src="images/logo.png" alt="شعار الاتحاد" class="logo-img" />
+                <img src="images/logo.png" alt="شعار الاتحاد" class="logo-img" width="52" height="44" />
                 <span>الاتحاد لخدمات المعتمرين</span>
             </a>
             <ul class="nav-menu" id="navMenu">
@@ -120,12 +122,14 @@
                 <li><a href="manasek" aria-label="مناسك العمرة"><i class="fa-solid fa-kaaba" aria-hidden="true"></i>مناسك العمرة</a></li>
                 <li><a href="tel:0550784878"><i class="fa-solid fa-phone" aria-hidden="true"></i>تواصل معنا</a></li>
             </ul>
+            <button class="btn-header-book book-now-trigger" type="button">احجز الآن</button>
             <button class="menu-toggle" id="menuToggle">☰</button>
         </div>
     </nav>
 
-    <!-- Hero Section -->
-    <section class="hero" id="home">
+    <main>
+        <!-- Hero Section -->
+        <section class="hero" id="home">
         <div class="hero-content container">
             <h1>برامج عمرة مميزة من المدينة إلى مكة</h1>
             <p>الاتحاد لخدمات المعتمرين - خبرة أكثر من 10 سنوات</p>
@@ -150,25 +154,25 @@
 
             <div class="features-grid features-cards">
                 <div class="feature-card">
-                    <div class="feature-figure"><img src="images/bus.jpeg" alt="أفخم الباصات" class="feature-image feature-image--wide" loading="lazy"></div>
+                    <div class="feature-figure"><img src="images/bus.jpeg" alt="أفخم الباصات" class="feature-image feature-image--wide" loading="lazy" width="640" height="720"></div>
                     <h3 class="feature-title">أفخم الباصات</h3>
                     <p class="feature-desc">باصات حديثة مجهّزة لضمان راحة وسلامة المعتمرين.</p>
                 </div>
 
                 <div class="feature-card">
-                    <div class="feature-figure"><img src="images/hotel.jpeg" alt="أفخم الفنادق" class="feature-image feature-image--wide" loading="lazy"></div>
+                    <div class="feature-figure"><img src="images/hotel.jpeg" alt="أفخم الفنادق" class="feature-image feature-image--wide" loading="lazy" width="640" height="720"></div>
                     <h3 class="feature-title">أفخم الفنادق</h3>
                     <p class="feature-desc">إقامة راقية بالقرب من الحرم مع خدمات متميزة للمعتمرين.</p>
                 </div>
 
                 <div class="feature-card">
-                    <div class="feature-figure"><img src="images/cash.jpg" alt="أفضل الأسعار" class="feature-image" loading="lazy"></div>
+                    <div class="feature-figure"><img src="images/cash.jpg" alt="أفضل الأسعار" class="feature-image" loading="lazy" width="300" height="300"></div>
                     <h3 class="feature-title">أفضل الأسعار</h3>
                     <p class="feature-desc">باقات شفافة وقيمة عالية تناسب مختلف الميزانيات.</p>
                 </div>
 
                 <div class="feature-card">
-                    <div class="feature-figure"><img src="images/clock-icon.jpg" alt="التزام بالمواعيد" class="feature-image" loading="lazy"></div>
+                    <div class="feature-figure"><img src="images/clock-icon.jpg" alt="التزام بالمواعيد" class="feature-image" loading="lazy" width="300" height="300"></div>
                     <h3 class="feature-title">التزام بالمواعيد</h3>
                     <p class="feature-desc">تنسيق وتشغيل دقيق يضمن الالتزام بالمواعيد وسلاسة التنفيذ.</p>
                 </div>
@@ -289,14 +293,14 @@
 
                 <div class="support-illustration">
                     <div class="support-image-wrap">
-                        <img src="images/kaaba.jpg" alt="الكعبة" class="support-image" loading="lazy">
+                        <img src="images/kaaba.jpg" alt="الكعبة" class="support-image" loading="lazy" width="640" height="720">
                     </div>
                 </div>
             </div>
                 </div>
             </div>
         </div>
-    </section>
+    </main>
 
     <!-- Booking Modal -->
     <div id="bookingModal" class="modal" role="dialog" aria-hidden="true">
@@ -457,7 +461,7 @@
     <footer class="footer">
         <div class="container footer-grid">
             <div class="footer-brand">
-                <a href="#" class="logo-footer"><img src="images/logo.png" alt="شعار الاتحاد" class="logo-img" loading="lazy" /></a>
+                <a href="#" class="logo-footer"><img src="images/logo.png" alt="شعار الاتحاد" class="logo-img" loading="lazy" width="60" height="51" /></a>
                 <h3 class="footer-title">الاتحاد لخدمات المعتمرين</h3>
                 <p class="footer-desc">خبرة تفوق 10 سنوات في تنظيم برامج العمرة من المدينة إلى مكة مع باقات متكاملة ومتابعة ميدانية لضمان رحلة مريحة وآمنة.</p>
             </div>
@@ -516,7 +520,7 @@
     </nav>
 
 </body>
-<script src="https://cdn.jsdelivr.net/npm/appwrite@14.0.0"></script>
-<script src="appwrite-db.js"></script>
-<script src="main.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/appwrite@14.0.0" defer></script>
+<script src="js/appwrite-db.js" defer></script>
+<script src="js/main.js" defer></script>
 </html>

@@ -231,6 +231,7 @@
         .nav-small .container {
             display: flex;
             align-items: center;
+            justify-content: space-between;
         }
 
         @media (max-width: 768px) {
@@ -303,7 +304,7 @@
         }
 
         .btn-primary {
-            background: var(--primary-color);
+            background: var(--primary-dark);
             color: var(--white);
             padding: 12px 30px;
             border-radius: 50px;
@@ -325,8 +326,8 @@
 
         .btn-secondary {
             background: var(--white);
-            color: var(--primary-color);
-            border: 2px solid var(--primary-color);
+            color: var(--primary-dark);
+            border: 2px solid var(--primary-dark);
             padding: 10px 26px;
             border-radius: 50px;
             font-family: inherit;
@@ -341,6 +342,35 @@
             color: var(--primary-dark);
             transform: translateY(-2px);
             box-shadow: 0 12px 30px rgba(6,132,94,0.08);
+        }
+
+        .btn-header-book {
+            background: var(--primary-dark);
+            color: var(--white);
+            padding: 8px 18px;
+            border-radius: 50px;
+            font-weight: 700;
+            text-decoration: none;
+            font-size: 14px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: inline-block;
+            box-shadow: 0 4px 12px rgba(21, 128, 61, 0.15);
+            font-family: inherit;
+        }
+
+        .btn-header-book:hover {
+            background: var(--secondary-color);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(21, 128, 61, 0.25);
+        }
+
+        @media (max-width: 480px) {
+            .btn-header-book {
+                padding: 6px 12px;
+                font-size: 13px;
+            }
         }
 
         .menu-toggle {
@@ -2075,7 +2105,7 @@
 
         .review-verified {
             font-size: 12px;
-            color: var(--primary-color);
+            color: var(--primary-dark);
             font-weight: 700;
             display: flex;
             align-items: center;

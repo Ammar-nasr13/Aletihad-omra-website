@@ -31,9 +31,11 @@
     <meta property="og:image" content="https://etihadalmdina.com/images/2.webp">
 
     <!-- Fonts & Icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Almarai:wght@300;400;700;800&family=Cairo:wght@300;400;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" media="print" onload="this.media='all'">
+    <link rel="stylesheet" href="css/styles.css">
 
     <!-- Structured Data: HowTo Schema -->
     <script type="application/ld+json">
@@ -81,7 +83,8 @@
 <body>
   <header class="nav-small">
     <div class="container">
-      <a href="/" class="logo"><img src="images/logo.png" alt="شعار الاتحاد" class="logo-img"> <span>الاتحاد لخدمات المعتمرين</span></a>
+      <a href="/" class="logo"><img src="images/logo.png" alt="شعار الاتحاد" class="logo-img" width="52" height="44"> <span>الاتحاد لخدمات المعتمرين</span></a>
+      <a href="programs" class="btn-header-book">احجز الآن</a>
     </div>
   </header>
 
@@ -147,7 +150,7 @@
             <p>احرص على قراءة الدليل جيداً والتخطيط المسبق لرحلتك لتركز طاقاتك وجهودك في العبادة والتقرب إلى الله عز وجل.</p>
           </div>
           <div class="guide-image" role="button" aria-label="عرض الصورة بحجم كامل">
-            <img src="images/2.webp" alt="دليل مناسك العمرة" class="guide-img-responsive" loading="lazy">
+            <img src="images/2.webp" alt="دليل مناسك العمرة" class="guide-img-responsive" loading="lazy" width="800" height="600">
             <div class="zoom-overlay"><i class="fa-solid fa-magnifying-glass-plus"></i></div>
           </div>
         </div>
@@ -193,6 +196,6 @@
         </a>
     </nav>
 
-  <script src="manasek.js" defer></script>
+  <script src="js/manasek.js" defer></script>
 </body>
 </html>

@@ -334,19 +334,6 @@ document.addEventListener('DOMContentLoaded', function () {
     // Initial load
     refreshDashboard();
 
-    // Subscribe to Realtime Updates (instantly updates dashboard if users book trips or write reviews)
-    if (DB.isAppwriteActive()) {
-        DB.subscribeToCollection('bookings', (response) => {
-            console.log('Realtime event on bookings:', response.events);
-            refreshDashboard();
-        });
-        
-        DB.subscribeToCollection('reviews', (response) => {
-            console.log('Realtime event on reviews:', response.events);
-            refreshDashboard();
-        });
-    }
-
     // REST API helper to send transactional email using Appwrite SMTP Messaging and a temporary user
     async function sendAppwriteEmail(apiKey, booking) {
         const endpoint = 'https://appwrite.ammar-nasr13.cloud/v1';
