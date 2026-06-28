@@ -294,7 +294,7 @@ ${bookingData.notes ? `*ملاحظات إضافية:* ${bookingData.notes}` : ''
 
 يرجى تأكيد الحجز وإخطاري بالخطوات التالية. شكراً لكم.`;
 
-                            const waUrl = `https://wa.me/966574746004?text=${encodeURIComponent(waText)}`;
+                            const waUrl = `https://wa.me/966550784878?text=${encodeURIComponent(waText)}`;
                             
                             // Show success modal with WhatsApp button
                             window.showSuccessModal(

@@ -367,8 +367,8 @@
         .hero::before {
             content: '🕋';
             position: absolute;
-            font-size: 300px;
-            opacity: 0.05;
+            font-size: 360px;
+            opacity: 0.12;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
@@ -1417,6 +1417,8 @@
             .footer-grid { grid-template-columns: 1fr; gap: 18px; text-align: center; }
             .footer-desc { max-width: 100%; margin: 0 auto; }
             .contact-line a { display: inline-block; }
+            .footer-socials { justify-content: center; }
+            .footer-bottom { border-top: none; }
         }
 
         /* Responsive Design */
