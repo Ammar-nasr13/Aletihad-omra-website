@@ -251,6 +251,40 @@ const DB = {
         return localStorageDB.get('reviews_db').sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
     },
 
+    async seedAppwriteReviewsIfEmpty() {
+        if (this.isAppwriteActive()) {
+            try {
+                const response = await databasesInstance.listDocuments(
+                    APPWRITE_CONFIG.databaseId,
+                    APPWRITE_CONFIG.collections.reviews,
+                    [Appwrite.Query.limit(1)]
+                );
+                
+                if (response.total === 0) {
+                    console.log('Seeding default reviews into Appwrite Database...');
+                    for (const seedReview of SEED_REVIEWS) {
+                        await databasesInstance.createDocument(
+                            APPWRITE_CONFIG.databaseId,
+                            APPWRITE_CONFIG.collections.reviews,
+                            seedReview.id,
+                            {
+                                id: seedReview.id,
+                                name: seedReview.name,
+                                rating: parseInt(seedReview.rating) || 5,
+                                comment: seedReview.comment,
+                                status: seedReview.status,
+                                created_at: seedReview.created_at
+                            }
+                        );
+                    }
+                    console.log('Default reviews seeded successfully into Appwrite.');
+                }
+            } catch (error) {
+                console.error('Failed to seed reviews into Appwrite:', error);
+            }
+        }
+    },
+
     async updateReviewStatus(documentId, status) {
         if (this.isAppwriteActive()) {
             try {

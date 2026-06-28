@@ -304,6 +304,9 @@ document.addEventListener('DOMContentLoaded', function () {
     // Refresh Dashboard Data
     async function refreshDashboard() {
         try {
+            // Seed default reviews if they are missing in Appwrite
+            await DB.seedAppwriteReviewsIfEmpty();
+
             const bookings = await DB.getBookings();
             const reviews = await DB.getAllReviews();
             
