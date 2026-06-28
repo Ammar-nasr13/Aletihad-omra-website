@@ -2209,9 +2209,10 @@
         }
 
         /* Admin Dashboard Styles */
+        /* Admin Dashboard Styles */
         .admin-section {
-            padding: 40px 0;
-            background: #f4f7f5;
+            padding: 40px 0 80px 0;
+            background: #f4f7f6;
             min-height: 100vh;
         }
 
@@ -2229,37 +2230,70 @@
             font-size: 28px;
             font-weight: 800;
             margin: 0;
+            position: relative;
         }
 
         /* Stats Cards */
         .admin-stats-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
             gap: 20px;
             margin-bottom: 40px;
         }
 
         .admin-stat-card {
             background: var(--white);
-            border-radius: var(--radius);
+            border-radius: 16px;
             padding: 24px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.02);
-            border: 1px solid rgba(0,0,0,0.03);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02);
+            border: 1px solid rgba(229, 231, 235, 0.6);
             display: flex;
             align-items: center;
             gap: 20px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .admin-stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-color), var(--primary-light));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .admin-stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 30px rgba(22, 101, 52, 0.08);
+            border-color: rgba(22, 101, 52, 0.15);
+        }
+
+        .admin-stat-card:hover::before {
+            opacity: 1;
         }
 
         .admin-stat-icon {
-            width: 56px;
-            height: 56px;
-            border-radius: 12px;
+            width: 60px;
+            height: 60px;
+            border-radius: 14px;
             background: rgba(22, 101, 52, 0.06);
             color: var(--primary-color);
             font-size: 24px;
             display: flex;
             align-items: center;
             justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .admin-stat-card:hover .admin-stat-icon {
+            background: var(--primary-color);
+            color: var(--white);
+            transform: rotate(8deg);
         }
 
         .admin-stat-info {
@@ -2269,7 +2303,7 @@
         }
 
         .admin-stat-value {
-            font-size: 24px;
+            font-size: 26px;
             font-weight: 800;
             color: var(--text-dark);
             line-height: 1.2;
@@ -2279,59 +2313,59 @@
             font-size: 13.5px;
             color: var(--text-light);
             margin-top: 4px;
-            font-weight: 600;
+            font-weight: 700;
         }
 
-        /* Admin Tabs */
+        /* Admin Tabs (Premium Pill Style) */
         .admin-tabs {
             display: flex;
-            gap: 15px;
-            border-bottom: 2px solid rgba(0,0,0,0.06);
-            margin-bottom: 25px;
+            gap: 10px;
+            background: rgba(229, 231, 235, 0.5);
+            padding: 6px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            width: fit-content;
+            border: 1px solid rgba(229, 231, 235, 0.8);
         }
 
         .admin-tab-btn {
             background: none;
             border: none;
             font-family: 'Cairo', sans-serif;
-            font-size: 16px;
+            font-size: 15px;
             font-weight: 700;
-            color: var(--text-light);
-            padding: 10px 20px;
+            color: #4b5563;
+            padding: 10px 24px;
             cursor: pointer;
-            position: relative;
-            transition: color 0.2s;
+            border-radius: 8px;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .admin-tab-btn:hover {
+            color: var(--primary-color);
+            background: rgba(255, 255, 255, 0.6);
         }
 
         .admin-tab-btn.active {
-            color: var(--primary-color);
-        }
-
-        .admin-tab-btn.active::after {
-            content: '';
-            position: absolute;
-            bottom: -2px;
-            left: 0;
-            right: 0;
-            height: 3px;
+            color: var(--white);
             background: var(--primary-color);
-            border-radius: 2px;
+            box-shadow: 0 4px 15px rgba(22, 101, 52, 0.25);
         }
 
-        /* Data Tables */
+        /* Data Tables & Cards */
         .admin-card {
             background: var(--white);
-            border-radius: var(--radius);
-            box-shadow: var(--card-shadow);
-            border: 1px solid rgba(0,0,0,0.03);
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+            border: 1px solid rgba(229, 231, 235, 0.7);
             margin-bottom: 30px;
             overflow: hidden;
         }
 
         .admin-card-header {
-            padding: 20px 24px;
-            background: rgba(22, 101, 52, 0.02);
-            border-bottom: 1px solid rgba(0,0,0,0.04);
+            padding: 22px 28px;
+            background: #fafbfa;
+            border-bottom: 1px solid rgba(229, 231, 235, 0.7);
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -2341,12 +2375,26 @@
             margin: 0;
             font-size: 18px;
             color: var(--secondary-color);
-            font-weight: 700;
+            font-weight: 800;
         }
 
         .table-responsive {
             overflow-x: auto;
             width: 100%;
+            scrollbar-width: thin;
+            scrollbar-color: rgba(22, 101, 52, 0.2) transparent;
+        }
+
+        /* Scrollbar styles */
+        .table-responsive::-webkit-scrollbar {
+            height: 6px;
+        }
+        .table-responsive::-webkit-scrollbar-thumb {
+            background: rgba(22, 101, 52, 0.2);
+            border-radius: 3px;
+        }
+        .table-responsive::-webkit-scrollbar-track {
+            background: transparent;
         }
 
         .admin-table {
@@ -2357,30 +2405,31 @@
         }
 
         .admin-table th {
-            background: #fafbfa;
+            background: #f8faf9;
             color: var(--text-dark);
-            font-weight: 700;
-            padding: 14px 18px;
-            border-bottom: 2px solid rgba(0,0,0,0.04);
+            font-weight: 800;
+            padding: 16px 20px;
+            border-bottom: 2px solid rgba(229, 231, 235, 0.8);
             white-space: nowrap;
+            font-size: 14px;
         }
 
         .admin-table td {
-            padding: 14px 18px;
-            border-bottom: 1px solid rgba(0,0,0,0.04);
+            padding: 16px 20px;
+            border-bottom: 1px solid rgba(229, 231, 235, 0.5);
             color: var(--text-dark);
             vertical-align: middle;
         }
 
         .admin-table tr:hover {
-            background: rgba(22, 101, 52, 0.01);
+            background: rgba(22, 101, 52, 0.015);
         }
 
         /* Badges */
         .badge {
             display: inline-flex;
             align-items: center;
-            padding: 4px 10px;
+            padding: 5px 12px;
             border-radius: 99px;
             font-size: 12px;
             font-weight: 700;
@@ -2389,11 +2438,13 @@
         .badge-pending {
             background: #fef3c7;
             color: #d97706;
+            border: 1px solid rgba(217, 119, 6, 0.15);
         }
 
         .badge-approved {
             background: #dcfce7;
             color: #15803d;
+            border: 1px solid rgba(21, 128, 61, 0.15);
         }
 
         /* Action Buttons */
@@ -2401,73 +2452,80 @@
             background: #fee2e2;
             color: #dc2626;
             border: none;
-            width: 32px;
-            height: 32px;
-            border-radius: 6px;
+            width: 34px;
+            height: 34px;
+            border-radius: 8px;
             display: inline-flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
-            transition: all 0.2s;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .btn-action-delete:hover {
             background: #dc2626;
             color: var(--white);
+            transform: scale(1.08);
+            box-shadow: 0 4px 12px rgba(220, 38, 38, 0.25);
         }
 
         .btn-action-approve {
             background: #dcfce7;
             color: #16a34a;
             border: none;
-            width: 32px;
-            height: 32px;
-            border-radius: 6px;
+            width: 34px;
+            height: 34px;
+            border-radius: 8px;
             display: inline-flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
-            transition: all 0.2s;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
             margin-inline-end: 6px;
         }
 
         .btn-action-approve:hover {
             background: #16a34a;
             color: var(--white);
+            transform: scale(1.08);
+            box-shadow: 0 4px 12px rgba(22, 163, 74, 0.25);
         }
 
         .btn-action-reject {
             background: #f3f4f6;
             color: #4b5563;
             border: none;
-            width: 32px;
-            height: 32px;
-            border-radius: 6px;
+            width: 34px;
+            height: 34px;
+            border-radius: 8px;
             display: inline-flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
-            transition: all 0.2s;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
             margin-inline-end: 6px;
         }
 
         .btn-action-reject:hover {
             background: #4b5563;
             color: var(--white);
+            transform: scale(1.08);
+            box-shadow: 0 4px 12px rgba(75, 85, 99, 0.25);
         }
 
         .admin-empty-state {
-            padding: 40px;
+            padding: 60px;
             text-align: center;
             color: var(--text-light);
-            font-weight: 600;
+            font-weight: 700;
+            font-size: 15px;
         }
 
         /* Stars rendering in tables */
         .admin-stars {
             color: #fbbf24;
             display: flex;
-            gap: 2px;
+            gap: 3px;
         }
 
         /* Tabs control flow */
@@ -2650,4 +2708,72 @@
             font-size: 18px;
         }
 
-    
+/* ==========================================================================
+   Mobile Bottom Navigation
+   ========================================================================== */
+.mobile-bottom-nav {
+    display: none;
+}
+
+@media (max-width: 768px) {
+    /* Hide top navbar menu toggle and dropdown links to keep header clean */
+    .navbar .menu-toggle,
+    .navbar .nav-menu {
+        display: none !important;
+    }
+
+    /* Fixed bottom navigation styling */
+    .mobile-bottom-nav {
+        display: flex;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 65px;
+        background: rgba(255, 255, 255, 0.96);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.08);
+        border-top: 1px solid rgba(229, 231, 235, 0.8);
+        z-index: 9999;
+        justify-content: space-around;
+        align-items: center;
+        padding: 4px 10px 8px 10px; /* Safe padding for mobile displays */
+        box-sizing: border-box;
+    }
+
+    .mobile-nav-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        color: #6b7280;
+        text-decoration: none;
+        font-size: 11px;
+        font-weight: 700;
+        gap: 3px;
+        transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        flex: 1;
+        height: 100%;
+    }
+
+    .mobile-nav-item i {
+        font-size: 20px;
+        transition: transform 0.2s ease;
+    }
+
+    .mobile-nav-item:active i,
+    .mobile-nav-item.active i {
+        transform: scale(1.15);
+    }
+
+    .mobile-nav-item:active,
+    .mobile-nav-item.active {
+        color: var(--primary-color);
+    }
+
+    /* Add padding to the body so content isn't covered by bottom navigation */
+    body {
+        padding-bottom: 65px !important;
+    }
+}

@@ -21,11 +21,11 @@
     <meta name="robots" content="index, follow">
     
     <!-- Canonical Link -->
-    <link rel="canonical" href="https://etihadalmdina.com/programs.html">
+    <link rel="canonical" href="https://etihadalmdina.com/programs">
     
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://etihadalmdina.com/programs.html">
+    <meta property="og:url" content="https://etihadalmdina.com/programs">
     <meta property="og:title" content="برامج وباقات العمرة المتميزة | الاتحاد لخدمات المعتمرين">
     <meta property="og:description" content="تصفح وحجز أفضل برامج وحملات العمرة الميسرة. باقات اقتصادية ومتكاملة تناسب الأفراد والعائلات مع باصات فاخرة وفنادق قريبة.">
     <meta property="og:image" content="https://etihadalmdina.com/images/logo.png">
@@ -42,7 +42,7 @@
       "@type": "ItemList",
       "name": "برامج عمرة الاتحاد",
       "description": "باقات حملات العمرة المتكاملة والميسرة إلى مكة المكرمة والمدينة المنورة.",
-      "url": "https://etihadalmdina.com/programs.html",
+      "url": "https://etihadalmdina.com/programs",
       "itemListElement": [
         {
           "@type": "ListItem",
@@ -96,14 +96,14 @@
     <!-- Navigation -->
     <nav class="navbar" id="navbar">
         <div class="nav-container container">
-            <a href="index.html" class="logo">
+            <a href="/" class="logo">
                 <img src="images/logo.png" alt="شعار الاتحاد" class="logo-img" />
                 <span>الاتحاد لخدمات المعتمرين</span>
             </a>
             <ul class="nav-menu" id="navMenu">
-                <li><a href="index.html#home"><i class="fa-solid fa-house-chimney" aria-hidden="true"></i>الرئيسية</a></li>
-                <li><a href="programs.html" class="active"><i class="fa-solid fa-list-check" aria-hidden="true"></i>برامجنا</a></li>
-                <li><a href="manasek.html" aria-label="مناسك العمرة"><i class="fa-solid fa-kaaba" aria-hidden="true"></i>مناسك العمرة</a></li>
+                <li><a href="/#home"><i class="fa-solid fa-house-chimney" aria-hidden="true"></i>الرئيسية</a></li>
+                <li><a href="programs" class="active"><i class="fa-solid fa-list-check" aria-hidden="true"></i>برامجنا</a></li>
+                <li><a href="manasek" aria-label="مناسك العمرة"><i class="fa-solid fa-kaaba" aria-hidden="true"></i>مناسك العمرة</a></li>
                 <li><a href="tel:0574746004"><i class="fa-solid fa-phone" aria-hidden="true"></i>تواصل معنا</a></li>
             </ul>
             <button class="menu-toggle" id="menuToggle">☰</button>
@@ -360,7 +360,7 @@
     <footer class="footer">
         <div class="container footer-grid">
             <div class="footer-brand">
-                <a href="index.html" class="logo-footer"><img src="images/logo.png" alt="شعار الاتحاد" class="logo-img" loading="lazy" /></a>
+                <a href="/" class="logo-footer"><img src="images/logo.png" alt="شعار الاتحاد" class="logo-img" loading="lazy" /></a>
                 <h3 class="footer-title">الاتحاد لخدمات المعتمرين</h3>
                 <p class="footer-desc">خبرة تفوق 10 سنوات في تنظيم برامج العمرة من المدينة إلى مكة مع باقات متكاملة ومتابعة ميدانية لضمان رحلة مريحة وآمنة.</p>
             </div>
@@ -368,9 +368,9 @@
             <div class="footer-links">
                 <h4>روابط سريعة</h4>
                 <ul>
-                    <li><a href="index.html#home">الرئيسية</a></li>
-                    <li><a href="programs.html">برامجنا</a></li>
-                    <li><a href="index.html#about">من نحن</a></li>
+                    <li><a href="/#home">الرئيسية</a></li>
+                    <li><a href="programs">برامجنا</a></li>
+                    <li><a href="/#about">من نحن</a></li>
                 </ul>
             </div>
 
@@ -399,6 +399,25 @@
         </div>
     </footer>
 
+    <!-- Mobile Bottom Navigation -->
+    <nav class="mobile-bottom-nav" aria-label="شريط التنقل السفلي للهواتف">
+        <a href="/#home" class="mobile-nav-item">
+            <i class="fa-solid fa-house-chimney"></i>
+            <span>الرئيسية</span>
+        </a>
+        <a href="programs" class="mobile-nav-item active">
+            <i class="fa-solid fa-list-check"></i>
+            <span>برامجنا</span>
+        </a>
+        <a href="manasek" class="mobile-nav-item">
+            <i class="fa-solid fa-kaaba"></i>
+            <span>المناسك</span>
+        </a>
+        <a href="tel:0574746004" class="mobile-nav-item">
+            <i class="fa-solid fa-phone"></i>
+            <span>اتصل بنا</span>
+        </a>
+    </nav>
     <script src="https://cdn.jsdelivr.net/npm/appwrite@14.0.0"></script>
     <script src="appwrite-db.js"></script>
     <script src="main.js"></script>

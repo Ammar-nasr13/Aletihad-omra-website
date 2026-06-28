@@ -115,8 +115,8 @@
             </a>
             <ul class="nav-menu" id="navMenu">
                 <li><a href="#home"><i class="fa-solid fa-house-chimney" aria-hidden="true"></i>الرئيسية</a></li>
-                <li><a href="programs.html"><i class="fa-solid fa-list-check" aria-hidden="true"></i>برامجنا</a></li>
-                <li><a href="manasek.html" aria-label="مناسك العمرة"><i class="fa-solid fa-kaaba" aria-hidden="true"></i>مناسك العمرة</a></li>
+                <li><a href="programs"><i class="fa-solid fa-list-check" aria-hidden="true"></i>برامجنا</a></li>
+                <li><a href="manasek" aria-label="مناسك العمرة"><i class="fa-solid fa-kaaba" aria-hidden="true"></i>مناسك العمرة</a></li>
                 <li><a href="tel:0574746004"><i class="fa-solid fa-phone" aria-hidden="true"></i>تواصل معنا</a></li>
             </ul>
             <button class="menu-toggle" id="menuToggle">☰</button>
@@ -460,7 +460,7 @@
                 <h4>روابط سريعة</h4>
                 <ul>
                     <li><a href="#home">الرئيسية</a></li>
-                    <li><a href="programs.html">برامجنا</a></li>
+                    <li><a href="programs">برامجنا</a></li>
                     <li><a href="#about">من نحن</a></li>
                 </ul>
             </div>
@@ -490,7 +490,26 @@
         </div>
     </footer>
 
- 
+    <!-- Mobile Bottom Navigation -->
+    <nav class="mobile-bottom-nav" aria-label="شريط التنقل السفلي للهواتف">
+        <a href="#home" class="mobile-nav-item active">
+            <i class="fa-solid fa-house-chimney"></i>
+            <span>الرئيسية</span>
+        </a>
+        <a href="programs" class="mobile-nav-item">
+            <i class="fa-solid fa-list-check"></i>
+            <span>برامجنا</span>
+        </a>
+        <a href="manasek" class="mobile-nav-item">
+            <i class="fa-solid fa-kaaba"></i>
+            <span>المناسك</span>
+        </a>
+        <a href="tel:0574746004" class="mobile-nav-item">
+            <i class="fa-solid fa-phone"></i>
+            <span>اتصل بنا</span>
+        </a>
+    </nav>
+
 </body>
 <script src="https://cdn.jsdelivr.net/npm/appwrite@14.0.0"></script>
 <script src="appwrite-db.js"></script>
