@@ -147,7 +147,7 @@ const DB = {
                 const response = await databasesInstance.listDocuments(
                     APPWRITE_CONFIG.databaseId,
                     APPWRITE_CONFIG.collections.bookings,
-                    [Appwrite.Query.orderDesc('created_at')]
+                    [Appwrite.Query.orderDesc('$createdAt')]
                 );
                 this.lastOperationSource = 'appwrite';
                 return response.documents;
@@ -214,7 +214,7 @@ const DB = {
                     APPWRITE_CONFIG.collections.reviews,
                     [
                         Appwrite.Query.equal('status', 'approved'),
-                        Appwrite.Query.orderDesc('created_at')
+                        Appwrite.Query.orderDesc('$createdAt')
                     ]
                 );
                 this.lastOperationSource = 'appwrite';
@@ -222,6 +222,7 @@ const DB = {
             } catch (error) {
                 console.error('Appwrite getApprovedReviews error, falling back to LocalStorage:', error);
                 this.lastOperationSource = 'local';
+                this.lastError = error.message || error;
             }
         }
         
@@ -237,7 +238,7 @@ const DB = {
                 const response = await databasesInstance.listDocuments(
                     APPWRITE_CONFIG.databaseId,
                     APPWRITE_CONFIG.collections.reviews,
-                    [Appwrite.Query.orderDesc('created_at')]
+                    [Appwrite.Query.orderDesc('$createdAt')]
                 );
                 this.lastOperationSource = 'appwrite';
                 return response.documents;
