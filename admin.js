@@ -1,21 +1,3 @@
-// Check admin session immediately upon script loading (before DOM is fully parsed to prevent visual flashing)
-(function () {
-    const session = localStorage.getItem('admin_session');
-    if (!session) {
-        window.location.replace('login.html');
-    } else {
-        try {
-            const sessionData = JSON.parse(session);
-            if (!sessionData.loggedIn || (Date.now() - sessionData.timestamp > 2 * 60 * 60 * 1000)) {
-                localStorage.removeItem('admin_session');
-                window.location.replace('login.html');
-            }
-        } catch (e) {
-            localStorage.removeItem('admin_session');
-            window.location.replace('login.html');
-        }
-    }
-})();
 
 document.addEventListener('DOMContentLoaded', function () {
     // DOM Elements
@@ -60,7 +42,8 @@ document.addEventListener('DOMContentLoaded', function () {
             statusBadge.style.color = '';
             statusBadge.style.border = '';
         } else {
-            statusBadge.textContent = 'خطأ بالاتصال / وضع التخزين المحلي (LocalStorage)';
+            const errorMsg = DB.lastError ? ` (${DB.lastError})` : '';
+            statusBadge.textContent = `خطأ بالاتصال / وضع التخزين المحلي ${errorMsg}`;
             statusBadge.className = 'badge';
             statusBadge.style.background = '#fee2e2';
             statusBadge.style.color = '#dc2626';

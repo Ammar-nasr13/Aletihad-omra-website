@@ -1,0 +1,11 @@
+# Enable Rewrite Engine
+RewriteEngine On
+
+# Redirect /filename.html to /filename (Clean URLs redirect)
+RewriteCond %{THE_REQUEST} \s/+(.*?)\.html\s [NC]
+RewriteRule ^ /%1 [R=301,L]
+
+# Internal rewrite to map clean URLs back to HTML files (e.g., /programs to /programs.html)
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME}\.html -f
+RewriteRule ^(.*)$ $1.html [NC,L]

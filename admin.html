@@ -12,6 +12,32 @@
         }
     </script>
     
+    <!-- Direct Session Authentication Check to prevent visual flashing of admin panel -->
+    <style>
+        body { display: none !important; }
+        html[data-auth="true"] body { display: block !important; }
+    </style>
+    <script>
+        (function () {
+            const session = localStorage.getItem('admin_session');
+            let isValid = false;
+            if (session) {
+                try {
+                    const sessionData = JSON.parse(session);
+                    if (sessionData.loggedIn && (Date.now() - sessionData.timestamp <= 2 * 60 * 60 * 1000)) {
+                        isValid = true;
+                    }
+                } catch (e) {}
+            }
+            if (!isValid) {
+                localStorage.removeItem('admin_session');
+                window.location.replace('login.html');
+            } else {
+                document.documentElement.setAttribute('data-auth', 'true');
+            }
+        })();
+    </script>
+    
     <!-- Favicon -->
     <link rel="icon" type="image/png" href="images/logo.png">
     <link href="https://fonts.googleapis.com/css2?family=Almarai:wght@300;400;700;800&family=Cairo:wght@300;400;600;700&display=swap" rel="stylesheet">
