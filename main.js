@@ -1,3 +1,71 @@
+// Dynamic Success Modal Initialization
+document.addEventListener('DOMContentLoaded', () => {
+    const modalHtml = `
+      <div id="successModal" class="modal success-modal" role="dialog" aria-hidden="true">
+        <div class="modal-inner success-modal-inner">
+          <div class="success-icon-wrapper">
+            <div class="success-checkmark-circle">
+              <div class="success-checkmark-draw"></div>
+            </div>
+          </div>
+          <h2 id="successTitle" class="success-title">تم إرسال الحجز بنجاح</h2>
+          <p id="successMessage" class="success-message">لقد تلقينا طلبك بنجاح وسنتواصل معك قريباً جداً.</p>
+          
+          <!-- WhatsApp Confirmation Section -->
+          <div id="whatsappConfirmArea" class="whatsapp-confirm-area">
+            <p class="whatsapp-confirm-text">لتسريع تأكيد حجزك، يرجى إرسال تفاصيل الطلب للمتابعة الفورية:</p>
+            <a id="whatsappConfirmBtn" href="#" target="_blank" rel="noopener noreferrer" class="btn-whatsapp-confirm">
+              <i class="fa-brands fa-whatsapp"></i>
+              <span>تأكيد الحجز عبر الواتساب</span>
+            </a>
+          </div>
+          
+          <button class="btn-primary success-close-btn" id="successCloseBtn">موافق</button>
+        </div>
+      </div>
+    `;
+    document.body.insertAdjacentHTML('beforeend', modalHtml);
+});
+
+window.showSuccessModal = function(title, message, whatsappUrl = null) {
+    const modal = document.getElementById('successModal');
+    const titleEl = document.getElementById('successTitle');
+    const msgEl = document.getElementById('successMessage');
+    const waArea = document.getElementById('whatsappConfirmArea');
+    const waBtn = document.getElementById('whatsappConfirmBtn');
+    
+    if (!modal) return;
+    
+    titleEl.textContent = title;
+    msgEl.textContent = message;
+    
+    if (whatsappUrl) {
+        waArea.style.display = 'block';
+        waBtn.href = whatsappUrl;
+    } else {
+        waArea.style.display = 'none';
+    }
+    
+    // Force checkmark animation reset
+    const iconWrapper = modal.querySelector('.success-icon-wrapper');
+    iconWrapper.innerHTML = `
+        <div class="success-checkmark-circle">
+          <div class="success-checkmark-draw"></div>
+        </div>
+    `;
+    
+    modal.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+    
+    // Bind close events
+    const closeBtn = document.getElementById('successCloseBtn');
+    const closeAction = () => {
+        modal.setAttribute('aria-hidden', 'true');
+        document.body.style.overflow = '';
+    };
+    closeBtn.onclick = closeAction;
+    modal.onclick = (e) => { if (e.target === modal) closeAction(); };
+};
 
         // Mobile Menu Toggle
         const menuToggle = document.getElementById('menuToggle');
@@ -183,6 +251,7 @@
                     const bookingData = {
                         name: form.elements.name.value,
                         phone: form.elements.phone.value,
+                        email: form.elements.email.value,
                         program: form.elements.program.value,
                         trip: form.elements.trip.value,
                         date: form.elements.date.value,
@@ -197,19 +266,42 @@
 
                     DB.addBooking(bookingData)
                         .then(() => {
-                            status.textContent = 'تم إرسال طلب الحجز بنجاح. سنتواصل معك قريبا.';
-                            status.classList.add('success');
                             form.reset();
-                            setTimeout(() => { 
-                                closeModal(); 
-                                status.textContent = ''; 
-                                status.classList.remove('success'); 
-                                submitBtn.disabled = false;
-                                submitBtn.classList.remove('is-loading');
-                                submitBtn.removeAttribute('aria-busy');
-                                submitBtn.textContent = originalText;
-                                if (cancelBtn) cancelBtn.disabled = false;
-                            }, 2200);
+                            closeModal(); 
+                            
+                            // Re-enable submit button
+                            submitBtn.disabled = false;
+                            submitBtn.classList.remove('is-loading');
+                            submitBtn.removeAttribute('aria-busy');
+                            submitBtn.textContent = originalText;
+                            if (cancelBtn) cancelBtn.disabled = false;
+                            
+                            // Prepare WhatsApp text
+                            const waText = `السلام عليكم ورحمة الله وبركاته،
+أود تأكيد حجز العمرة الخاص بي لدى الاتحاد لخدمات المعتمرين:
+
+*الاسم:* ${bookingData.name}
+*رقم الهاتف:* ${bookingData.phone}
+*البرنامج:* ${bookingData.program}
+*الرحلة:* ${bookingData.trip}
+*تاريخ الرحلة:* ${bookingData.date}
+*نوع الحجز:* ${bookingData.booking_type}
+*الجنس:* ${bookingData.gender}
+*نوع الإقامة:* ${bookingData.hotel}
+*الأسرّة:* ${bookingData.beds || 0}
+*المقاعد:* ذكور ${bookingData.seats_male || 0} | إناث ${bookingData.seats_female || 0}
+${bookingData.notes ? `*ملاحظات إضافية:* ${bookingData.notes}` : ''}
+
+يرجى تأكيد الحجز وإخطاري بالخطوات التالية. شكراً لكم.`;
+
+                            const waUrl = `https://wa.me/966574746004?text=${encodeURIComponent(waText)}`;
+                            
+                            // Show success modal with WhatsApp button
+                            window.showSuccessModal(
+                                'تم إرسال الحجز بنجاح', 
+                                'لقد تلقينا طلب حجزك بنجاح. يمكنك الآن تأكيد الحجز مباشرة عبر الواتساب لتسريع الإجراءات والمتابعة.', 
+                                waUrl
+                            );
                         })
                         .catch((err) => {
                             console.error(err);
@@ -384,8 +476,6 @@
 
                     try {
                         await DB.addReview(reviewData);
-                        status.textContent = 'تم إرسال تقييمك بنجاح. سيتم عرضه فور مراجعته من الإدارة.';
-                        status.classList.add('success');
                         reviewForm.reset();
                         
                         // Reset star rating UI
@@ -396,14 +486,18 @@
                         });
                         ratingValue.value = 5;
 
-                        setTimeout(() => {
-                            closeReviewModal();
-                            status.textContent = '';
-                            status.classList.remove('success');
-                            submitBtn.disabled = false;
-                            submitBtn.classList.remove('is-loading');
-                            if (cancelBtn) cancelBtn.disabled = false;
-                        }, 2500);
+                        closeReviewModal();
+                        
+                        // Re-enable submit button
+                        submitBtn.disabled = false;
+                        submitBtn.classList.remove('is-loading');
+                        if (cancelBtn) cancelBtn.disabled = false;
+
+                        // Show success modal (without WhatsApp area)
+                        window.showSuccessModal(
+                            'تم إرسال تقييمك بنجاح', 
+                            'شكرًا لك على مشاركة تجربتك. سيتم مراجعة تقييمك وعرضه على الموقع قريباً.'
+                        );
 
                     } catch (err) {
                         console.error(err);

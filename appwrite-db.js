@@ -100,6 +100,8 @@ if (localStorageDB.get('reviews_db').length === 0) {
 
 // Database API Service
 const DB = {
+    lastOperationSource: 'local',
+
     // Check if Appwrite is ready
     isAppwriteActive() {
         return databasesInstance !== null;
@@ -118,14 +120,17 @@ const DB = {
 
         if (this.isAppwriteActive()) {
             try {
-                return await databasesInstance.createDocument(
+                const res = await databasesInstance.createDocument(
                     APPWRITE_CONFIG.databaseId,
                     APPWRITE_CONFIG.collections.bookings,
                     id,
                     bookingRecord
                 );
+                this.lastOperationSource = 'appwrite';
+                return res;
             } catch (error) {
                 console.error('Appwrite addBooking error, falling back to LocalStorage:', error);
+                this.lastOperationSource = 'local';
             }
         }
         
@@ -133,7 +138,6 @@ const DB = {
         bookingRecord.$id = id;
         return localStorageDB.add('bookings_db', bookingRecord);
     },
-
     async getBookings() {
         if (this.isAppwriteActive()) {
             try {
@@ -142,9 +146,11 @@ const DB = {
                     APPWRITE_CONFIG.collections.bookings,
                     [Appwrite.Query.orderDesc('created_at')]
                 );
+                this.lastOperationSource = 'appwrite';
                 return response.documents;
             } catch (error) {
                 console.error('Appwrite getBookings error, falling back to LocalStorage:', error);
+                this.lastOperationSource = 'local';
             }
         }
         return localStorageDB.get('bookings_db').sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
@@ -178,14 +184,17 @@ const DB = {
 
         if (this.isAppwriteActive()) {
             try {
-                return await databasesInstance.createDocument(
+                const res = await databasesInstance.createDocument(
                     APPWRITE_CONFIG.databaseId,
                     APPWRITE_CONFIG.collections.reviews,
                     id,
                     reviewRecord
                 );
+                this.lastOperationSource = 'appwrite';
+                return res;
             } catch (error) {
                 console.error('Appwrite addReview error, falling back to LocalStorage:', error);
+                this.lastOperationSource = 'local';
             }
         }
         
@@ -193,7 +202,6 @@ const DB = {
         reviewRecord.$id = id;
         return localStorageDB.add('reviews_db', reviewRecord);
     },
-
     async getApprovedReviews() {
         if (this.isAppwriteActive()) {
             try {
@@ -205,9 +213,11 @@ const DB = {
                         Appwrite.Query.orderDesc('created_at')
                     ]
                 );
+                this.lastOperationSource = 'appwrite';
                 return response.documents;
             } catch (error) {
                 console.error('Appwrite getApprovedReviews error, falling back to LocalStorage:', error);
+                this.lastOperationSource = 'local';
             }
         }
         

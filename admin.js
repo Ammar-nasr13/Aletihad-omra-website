@@ -53,12 +53,18 @@ document.addEventListener('DOMContentLoaded', function () {
     // Verify and show Database connection status
     function updateConnectionStatus() {
         if (!statusBadge) return;
-        if (DB.isAppwriteActive()) {
+        if (DB.isAppwriteActive() && DB.lastOperationSource === 'appwrite') {
             statusBadge.textContent = 'متصل بـ Appwrite Cloud';
             statusBadge.className = 'badge badge-approved';
+            statusBadge.style.background = '';
+            statusBadge.style.color = '';
+            statusBadge.style.border = '';
         } else {
-            statusBadge.textContent = 'وضع التخزين المحلي (LocalStorage)';
-            statusBadge.className = 'badge badge-pending';
+            statusBadge.textContent = 'خطأ بالاتصال / وضع التخزين المحلي (LocalStorage)';
+            statusBadge.className = 'badge';
+            statusBadge.style.background = '#fee2e2';
+            statusBadge.style.color = '#dc2626';
+            statusBadge.style.border = '1px solid rgba(220, 38, 38, 0.15)';
         }
     }
 
@@ -121,6 +127,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 <td style="font-size:12px; color:#6b7280; white-space:nowrap;">${dateStr}</td>
                 <td style="font-weight:700;">${booking.name}</td>
                 <td><a href="tel:${booking.phone}" style="color:var(--primary-color); text-decoration:none; font-weight:700;">${booking.phone}</a></td>
+                <td><a href="mailto:${booking.email || ''}" style="color:#2563eb; text-decoration:none; font-size:13px; font-weight:600;">${booking.email || '-'}</a></td>
                 <td style="font-size:13px; font-weight:600; color:var(--secondary-color);">${booking.program}</td>
                 <td style="font-size:13px;">
                     <div>${booking.trip}</div>
@@ -133,6 +140,11 @@ document.addEventListener('DOMContentLoaded', function () {
                 </td>
                 <td style="font-size:12.5px; max-width:180px; overflow-wrap:break-word; color:#4b5563;">${booking.notes || '-'}</td>
                 <td>
+                    ${booking.email ? `
+                    <button class="btn-action-email send-email-btn" data-id="${booking.$id || booking.id}" title="إرسال تأكيد بالبريد">
+                        <i class="fa-solid fa-envelope"></i>
+                    </button>
+                    ` : ''}
                     <button class="btn-action-delete delete-booking-btn" data-id="${booking.$id || booking.id}" title="حذف الحجز">
                         <i class="fa-solid fa-trash"></i>
                     </button>
@@ -150,6 +162,46 @@ document.addEventListener('DOMContentLoaded', function () {
                     this.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i>';
                     await DB.deleteBooking(id);
                     refreshDashboard();
+                }
+            });
+        });
+
+        // Add Send Email Event Listeners
+        document.querySelectorAll('.send-email-btn').forEach(btn => {
+            btn.addEventListener('click', async function () {
+                const id = this.getAttribute('data-id');
+                const booking = bookings.find(b => (b.$id || b.id) === id);
+                if (!booking || !booking.email) return;
+
+                // Check for API Key in localstorage
+                let apiKey = localStorage.getItem('appwrite_api_key');
+                if (!apiKey) {
+                    const promptKey = prompt(
+                        'لتأكيد وإرسال البريد الإلكتروني عبر Appwrite، يرجى إدخال مفتاح API Key الخاص بالمشروع (بصلاحيات users.write و messaging.write):\n\nسيتم حفظ المفتاح محلياً في متصفحك بشكل آمن.'
+                    );
+                    if (!promptKey) return;
+                    localStorage.setItem('appwrite_api_key', promptKey.trim());
+                    apiKey = promptKey.trim();
+                }
+
+                if (confirm(`هل أنت متأكد من رغبتك في إرسال بريد تأكيد حجز العمرة لـ ${booking.name} (${booking.email})؟`)) {
+                    this.disabled = true;
+                    this.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i>';
+
+                    try {
+                        const emailSent = await sendAppwriteEmail(apiKey, booking);
+                        if (emailSent) {
+                            alert('تم إرسال بريد التأكيد للعميل بنجاح!');
+                        } else {
+                            alert('فشل إرسال البريد الإلكتروني. يرجى التحقق من مفتاح الـ API وتكوين SMTP في Appwrite.');
+                        }
+                    } catch (error) {
+                        console.error(error);
+                        alert('حدث خطأ غير متوقع أثناء إرسال البريد الإلكتروني.');
+                    } finally {
+                        this.disabled = false;
+                        this.innerHTML = '<i class="fa-solid fa-envelope"></i>';
+                    }
                 }
             });
         });
@@ -309,5 +361,139 @@ document.addEventListener('DOMContentLoaded', function () {
             console.log('Realtime event on reviews:', response.events);
             refreshDashboard();
         });
+    }
+
+    // REST API helper to send transactional email using Appwrite SMTP Messaging and a temporary user
+    async function sendAppwriteEmail(apiKey, booking) {
+        const endpoint = 'https://appwrite.ammar-nasr13.cloud/v1';
+        const projectId = '6a403b12001b7893f851';
+        
+        try {
+            // 1. Create a temporary user with the target email
+            const tempUserId = 'user_' + Math.random().toString(36).substring(2, 9);
+            const userResponse = await fetch(`${endpoint}/users`, {
+                method: 'POST',
+                headers: {
+                    'X-Appwrite-Project': projectId,
+                    'X-Appwrite-Key': apiKey,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    userId: tempUserId,
+                    email: booking.email,
+                    password: 'Pass_' + Math.random().toString(36).substring(2, 9),
+                    name: booking.name
+                })
+            });
+
+            if (!userResponse.ok) {
+                const errData = await userResponse.json();
+                console.error('Failed to create temporary user:', errData);
+                return false;
+            }
+
+            const userData = await userResponse.json();
+            const userId = userData.$id;
+
+            // 2. Prepare HTML template in Arabic
+            const subject = 'تأكيد حجز العمرة - الاتحاد لخدمات المعتمرين';
+            const emailHtml = `
+            <div style="direction: rtl; font-family: 'Tahoma', 'Arial', sans-serif; text-align: right; background-color: #f4f7f6; padding: 30px; max-width: 600px; margin: 0 auto; border-radius: 12px;">
+                <div style="text-align: center; margin-bottom: 20px;">
+                    <h2 style="color: #153e2d; margin: 0; font-size: 22px;">الاتحاد لخدمات المعتمرين</h2>
+                    <p style="color: #d97706; margin: 5px 0 0 0; font-size: 13.5px; font-weight: bold;">تأكيد طلب حجز العمرة</p>
+                </div>
+                <div style="background-color: #ffffff; padding: 25px; border-radius: 10px; border-top: 4px solid #16a34a; box-shadow: 0 4px 10px rgba(0,0,0,0.02);">
+                    <h3 style="color: #1e293b; margin-top: 0;">مرحباً بك يا ${booking.name}،</h3>
+                    <p style="color: #4b5563; font-size: 14.5px; line-height: 1.6; margin-bottom: 20px;">
+                        يسعدنا إبلاغك بأنه قد تم تلقي طلب حجز العمرة الخاص بك وتأكيده بنجاح في نظامنا. فيما يلي تفاصيل طلب الحجز:
+                    </p>
+                    <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px; font-size: 14px;">
+                        <tr style="background-color: #f8fafc;">
+                            <td style="padding: 10px; font-weight: bold; color: #1e293b; border-bottom: 1px solid #e2e8f0; width: 35%;">البرنامج:</td>
+                            <td style="padding: 10px; color: #4b5563; border-bottom: 1px solid #e2e8f0;">${booking.program}</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; font-weight: bold; color: #1e293b; border-bottom: 1px solid #e2e8f0;">الرحلة والمسار:</td>
+                            <td style="padding: 10px; color: #4b5563; border-bottom: 1px solid #e2e8f0;">${booking.trip}</td>
+                        </tr>
+                        <tr style="background-color: #f8fafc;">
+                            <td style="padding: 10px; font-weight: bold; color: #1e293b; border-bottom: 1px solid #e2e8f0;">تاريخ الرحلة:</td>
+                            <td style="padding: 10px; color: #4b5563; border-bottom: 1px solid #e2e8f0;">${booking.date}</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; font-weight: bold; color: #1e293b; border-bottom: 1px solid #e2e8f0;">السكن والإقامة:</td>
+                            <td style="padding: 10px; color: #4b5563; border-bottom: 1px solid #e2e8f0;">${booking.hotel} (${booking.beds} أسرّة)</td>
+                        </tr>
+                        <tr style="background-color: #f8fafc;">
+                            <td style="padding: 10px; font-weight: bold; color: #1e293b; border-bottom: 1px solid #e2e8f0;">المقاعد المحجوزة:</td>
+                            <td style="padding: 10px; color: #4b5563; border-bottom: 1px solid #e2e8f0;">ذكور: ${booking.seats_male} | إناث: ${booking.seats_female}</td>
+                        </tr>
+                    </table>
+                    <p style="color: #4b5563; font-size: 14px; line-height: 1.6; margin-bottom: 0; text-align: center; font-weight: bold;">
+                        سنقوم بالتواصل معك هاتفياً قريباً لاستكمال الإجراءات المتبقية وإصدار التصاريح.
+                    </p>
+                </div>
+                <div style="text-align: center; margin-top: 25px; color: #9ca3af; font-size: 11px;">
+                    <p style="margin: 0;">جميع الحقوق محفوظة © 2026 الاتحاد لخدمات المعتمرين</p>
+                    <p style="margin: 5px 0 0 0;">المدينة المنورة، المملكة العربية السعودية</p>
+                </div>
+            </div>
+            `;
+
+            // 3. Send the email using Hostinger SMTP Provider in Appwrite Messaging
+            const messageResponse = await fetch(`${endpoint}/messaging/messages/email`, {
+                method: 'POST',
+                headers: {
+                    'X-Appwrite-Project': projectId,
+                    'X-Appwrite-Key': apiKey,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    messageId: 'msg_' + Math.random().toString(36).substring(2, 9),
+                    subject: subject,
+                    content: emailHtml,
+                    users: [userId],
+                    draft: false,
+                    html: true
+                })
+            });
+
+            if (!messageResponse.ok) {
+                const errData = await messageResponse.json();
+                console.error('Failed to create/send email message:', errData);
+                // Clean up the user immediately
+                await fetch(`${endpoint}/users/${userId}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'X-Appwrite-Project': projectId,
+                        'X-Appwrite-Key': apiKey
+                    }
+                });
+                return false;
+            }
+
+            // 4. Clean up temporary user after a brief delay
+            setTimeout(async () => {
+                try {
+                    await fetch(`${endpoint}/users/${userId}`, {
+                        method: 'DELETE',
+                        headers: {
+                            'X-Appwrite-Project': projectId,
+                            'X-Appwrite-Key': apiKey
+                        }
+                    });
+                    console.log('Temporary user cleaned up successfully:', userId);
+                } catch (e) {
+                    console.error('Cleanup error:', e);
+                }
+            }, 3000);
+
+            return true;
+
+        } catch (error) {
+            console.error('sendAppwriteEmail error:', error);
+            return false;
+        }
     }
 });

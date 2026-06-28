@@ -21,18 +21,21 @@
 </head>
 <body>
     <!-- Top Header -->
-    <div class="top-header">
-        <div class="container">
+    <div class="top-header admin-top-header">
+        <div class="container admin-header-container">
             <div class="top-header-info">
-                <div class="info-item">
-                    <span class="icon"><i class="fa-solid fa-user-shield" aria-hidden="true"></i></span>
-                    <span>لوحة الإدارة والمتابعة الآمنة</span>
-                </div>
+                <img src="images/logo.png" alt="شعار الاتحاد" class="admin-header-logo">
+                <span class="admin-header-title">لوحة الإدارة والتحكم الآمنة</span>
             </div>
-            <div class="info-item" style="display: flex; gap: 15px; align-items: center;">
-                <a href="index.html" style="color: white; text-decoration: none; font-weight: 700;"><i class="fa-solid fa-arrow-left" aria-hidden="true" style="margin-inline-end: 6px;"></i>العودة للموقع الرئيسي</a>
-                <span style="color: rgba(255,255,255,0.4);">|</span>
-                <a href="#" id="logoutBtn" style="color: #f87171; text-decoration: none; font-weight: 700;"><i class="fa-solid fa-right-from-bracket" aria-hidden="true" style="margin-inline-end: 6px;"></i>تسجيل الخروج</a>
+            <div class="admin-header-actions">
+                <a href="/" class="btn-admin-nav-back">
+                    <i class="fa-solid fa-arrow-left" aria-hidden="true"></i>
+                    <span>العودة للموقع</span>
+                </a>
+                <a href="#" id="logoutBtn" class="btn-admin-logout">
+                    <i class="fa-solid fa-right-from-bracket" aria-hidden="true"></i>
+                    <span>تسجيل الخروج</span>
+                </a>
             </div>
         </div>
     </div>
@@ -103,6 +106,7 @@
                                     <th>تاريخ التقديم</th>
                                     <th>الاسم</th>
                                     <th>رقم الهاتف</th>
+                                    <th>البريد الإلكتروني</th>
                                     <th>البرنامج</th>
                                     <th>الرحلة والتاريخ</th>
                                     <th>التسكين</th>

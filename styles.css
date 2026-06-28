@@ -2448,6 +2448,28 @@
         }
 
         /* Action Buttons */
+        .btn-action-email {
+            background: #dbeafe;
+            color: #2563eb;
+            border: none;
+            width: 34px;
+            height: 34px;
+            border-radius: 8px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            margin-inline-end: 6px;
+        }
+
+        .btn-action-email:hover {
+            background: #2563eb;
+            color: var(--white);
+            transform: scale(1.08);
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.25);
+        }
+
         .btn-action-delete {
             background: #fee2e2;
             color: #dc2626;
@@ -2775,5 +2797,218 @@
     /* Add padding to the body so content isn't covered by bottom navigation */
     body {
         padding-bottom: 65px !important;
+    }
+}
+
+/* ==========================================================================
+   Custom Animated Success Modal
+   ========================================================================== */
+.success-modal .success-modal-inner {
+    max-width: 420px;
+    text-align: center;
+    padding: 35px 25px;
+    border-radius: 20px;
+    animation: modalSlideUp 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+.success-title {
+    color: var(--secondary-color);
+    font-size: 22px;
+    font-weight: 800;
+    margin-top: 15px;
+    margin-bottom: 10px;
+}
+
+.success-message {
+    color: var(--text-light);
+    font-size: 14.5px;
+    line-height: 1.6;
+    margin-bottom: 24px;
+}
+
+.whatsapp-confirm-area {
+    margin-bottom: 24px;
+    padding: 16px;
+    background: rgba(34, 197, 94, 0.05);
+    border: 1px dashed rgba(34, 197, 94, 0.3);
+    border-radius: 12px;
+}
+
+.whatsapp-confirm-text {
+    font-size: 13px;
+    color: #4b5563;
+    margin-bottom: 12px;
+    line-height: 1.5;
+    font-weight: 700;
+    text-align: center;
+}
+
+.btn-whatsapp-confirm {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    background: #22c55e;
+    color: var(--white);
+    padding: 12px 24px;
+    border-radius: 10px;
+    text-decoration: none;
+    font-weight: 800;
+    font-size: 14.5px;
+    box-shadow: 0 8px 20px rgba(34, 197, 94, 0.2);
+    transition: all 0.2s ease;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.btn-whatsapp-confirm:hover {
+    background: #16a34a;
+    transform: translateY(-2px);
+    box-shadow: 0 12px 24px rgba(34, 197, 94, 0.3);
+    color: var(--white);
+}
+
+.btn-whatsapp-confirm:active {
+    transform: translateY(0);
+}
+
+.success-close-btn {
+    width: 100%;
+    padding: 12px;
+    font-weight: 800;
+    font-size: 15px;
+}
+
+/* Animated Checkmark CSS */
+.success-checkmark-circle {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    border: 4px solid #16a34a;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    margin: 0 auto 10px auto;
+    animation: scaleIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+.success-checkmark-draw {
+    width: 18px;
+    height: 36px;
+    border-right: 4px solid #16a34a;
+    border-bottom: 4px solid #16a34a;
+    transform: rotate(45deg);
+    transform-origin: 50% 50%;
+    margin-bottom: 6px;
+    animation: drawCheck 0.5s ease-in-out 0.3s forwards;
+    opacity: 0;
+}
+
+@keyframes scaleIn {
+    0% { transform: scale(0); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+@keyframes drawCheck {
+    0% { height: 0; width: 0; opacity: 0; }
+    30% { height: 0; width: 18px; opacity: 1; }
+    100% { height: 36px; width: 18px; opacity: 1; }
+}
+
+@keyframes modalSlideUp {
+    from { transform: translateY(30px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+/* ==========================================================================
+   Admin Header Enhancements
+   ========================================================================== */
+.admin-top-header {
+    background: #153e2d !important; /* Rich emerald dark theme */
+    border-bottom: 2px solid var(--primary-color) !important;
+    padding: 10px 0 !important;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.admin-header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.admin-header-logo {
+    height: 42px;
+    width: 42px;
+    object-fit: contain;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 3px;
+    margin-inline-end: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.admin-header-title {
+    font-size: 16.5px;
+    font-weight: 800;
+    color: var(--white);
+    letter-spacing: 0.5px;
+}
+
+.admin-header-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.btn-admin-nav-back,
+.btn-admin-logout {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-size: 13.5px;
+    font-weight: 700;
+    text-decoration: none;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.btn-admin-nav-back {
+    background: rgba(255, 255, 255, 0.08);
+    color: #e5e7eb;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.btn-admin-nav-back:hover {
+    background: rgba(255, 255, 255, 0.15);
+    color: var(--white);
+    transform: translateY(-1px);
+}
+
+.btn-admin-logout {
+    background: rgba(239, 68, 68, 0.15);
+    color: #fca5a5;
+    border: 1px solid rgba(239, 68, 68, 0.25);
+}
+
+.btn-admin-logout:hover {
+    background: #ef4444;
+    color: var(--white);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(239, 68, 68, 0.25);
+}
+
+@media (max-width: 768px) {
+    .admin-header-container {
+        flex-direction: column;
+        gap: 12px;
+        text-align: center;
+    }
+    
+    .admin-header-actions {
+        width: 100%;
+        justify-content: center;
     }
 }
