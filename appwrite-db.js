@@ -282,7 +282,8 @@ const DB = {
                 return { success: false, message: 'اسم المستخدم أو كلمة المرور غير صحيحة' };
             } catch (error) {
                 console.error('Appwrite loginAdmin error:', error);
-                return { success: false, message: 'حدث خطأ أثناء التحقق من خوادم Appwrite.' };
+                const message = error.message || 'حدث خطأ غير معروف أثناء الاتصال بخوادم Appwrite.';
+                return { success: false, message: `خطأ من خادم Appwrite: ${message}` };
             }
         }
         return { success: false, message: 'الاتصال بخدمة Appwrite غير نشط حالياً. يرجى تهيئة الكولكشنز في Appwrite Cloud أولاً.' };
