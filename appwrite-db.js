@@ -5,7 +5,8 @@ const APPWRITE_CONFIG = {
     databaseId: '6a403b35002eae0e8a44',
     collections: {
         bookings: 'bookings',
-        reviews: 'reviews'
+        reviews: 'reviews',
+        admins: 'admins'
     }
 };
 
@@ -260,5 +261,29 @@ const DB = {
             }
         }
         return localStorageDB.delete('reviews_db', documentId);
+    },
+
+    // ADMIN AUTH API
+    async loginAdmin(username, password) {
+        if (this.isAppwriteActive()) {
+            try {
+                const response = await databasesInstance.listDocuments(
+                    APPWRITE_CONFIG.databaseId,
+                    APPWRITE_CONFIG.collections.admins,
+                    [
+                        Appwrite.Query.equal('username', username),
+                        Appwrite.Query.equal('password', password)
+                    ]
+                );
+                if (response.documents.length > 0) {
+                    return { success: true, user: response.documents[0] };
+                }
+                return { success: false, message: 'اسم المستخدم أو كلمة المرور غير صحيحة' };
+            } catch (error) {
+                console.error('Appwrite loginAdmin error:', error);
+                return { success: false, message: 'حدث خطأ أثناء التحقق من خوادم Appwrite.' };
+            }
+        }
+        return { success: false, message: 'الاتصال بخدمة Appwrite غير نشط حالياً. يرجى تهيئة الكولكشنز في Appwrite Cloud أولاً.' };
     }
 };

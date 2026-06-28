@@ -1,3 +1,22 @@
+// Check admin session immediately upon script loading (before DOM is fully parsed to prevent visual flashing)
+(function () {
+    const session = localStorage.getItem('admin_session');
+    if (!session) {
+        window.location.replace('login.html');
+    } else {
+        try {
+            const sessionData = JSON.parse(session);
+            if (!sessionData.loggedIn || (Date.now() - sessionData.timestamp > 2 * 60 * 60 * 1000)) {
+                localStorage.removeItem('admin_session');
+                window.location.replace('login.html');
+            }
+        } catch (e) {
+            localStorage.removeItem('admin_session');
+            window.location.replace('login.html');
+        }
+    }
+})();
+
 document.addEventListener('DOMContentLoaded', function () {
     // DOM Elements
     const statusBadge = document.getElementById('statusBadge');
@@ -264,6 +283,16 @@ document.addEventListener('DOMContentLoaded', function () {
         } catch (e) {
             console.error('Error refreshing dashboard data:', e);
         }
+    }
+
+    // Logout Button
+    const logoutBtn = document.getElementById('logoutBtn');
+    if (logoutBtn) {
+        logoutBtn.addEventListener('click', function (e) {
+            e.preventDefault();
+            localStorage.removeItem('admin_session');
+            window.location.replace('login.html');
+        });
     }
 
     // Initial load
