@@ -3,6 +3,7 @@ const APPWRITE_CONFIG = {
     endpoint: 'https://appwrite.ammar-nasr13.cloud/v1',
     projectId: '6a403b12001b7893f851',
     databaseId: '6a403b35002eae0e8a44',
+    apiKey: 'standard_bbc4b58897789ab1c117df9ca8f421545aa49d4dd0df7737e18f0526c85afb24d472a227de4a6e122c985272b2c6b8a0a7aa9b84fa12c692a069f3b5259e248ed752dbfea8b565a36d54d1c4385e5a1c2b2ab00dfd0253ca5d602b6115d3f3f8039a2ff731237915e649a9f60b130fdd31d9860715dd26311935bcf63ab23d9b', // مفتاح الـ API المعتمد للإرسال بنقرة واحدة
     collections: {
         bookings: 'bookings',
         reviews: 'reviews',
@@ -111,6 +112,7 @@ const DB = {
     async addBooking(bookingData) {
         const id = typeof Appwrite !== 'undefined' ? Appwrite.ID.unique() : Math.random().toString(36).substring(2, 9);
         const bookingRecord = {
+            id: id,
             ...bookingData,
             beds: parseInt(bookingData.beds) || 0,
             seats_male: parseInt(bookingData.seats_male) || 0,
@@ -134,7 +136,6 @@ const DB = {
             }
         }
         
-        bookingRecord.id = id;
         bookingRecord.$id = id;
         return localStorageDB.add('bookings_db', bookingRecord);
     },
@@ -175,6 +176,7 @@ const DB = {
     async addReview(reviewData) {
         const id = typeof Appwrite !== 'undefined' ? Appwrite.ID.unique() : Math.random().toString(36).substring(2, 9);
         const reviewRecord = {
+            id: id,
             name: reviewData.name,
             rating: parseInt(reviewData.rating) || 5,
             comment: reviewData.comment,
@@ -198,7 +200,6 @@ const DB = {
             }
         }
         
-        reviewRecord.id = id;
         reviewRecord.$id = id;
         return localStorageDB.add('reviews_db', reviewRecord);
     },
@@ -235,9 +236,11 @@ const DB = {
                     APPWRITE_CONFIG.collections.reviews,
                     [Appwrite.Query.orderDesc('created_at')]
                 );
+                this.lastOperationSource = 'appwrite';
                 return response.documents;
             } catch (error) {
                 console.error('Appwrite getAllReviews error, falling back to LocalStorage:', error);
+                this.lastOperationSource = 'local';
             }
         }
         return localStorageDB.get('reviews_db').sort((a, b) => new Date(b.created_at) - new Date(a.created_at));

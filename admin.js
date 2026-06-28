@@ -173,15 +173,11 @@ document.addEventListener('DOMContentLoaded', function () {
                 const booking = bookings.find(b => (b.$id || b.id) === id);
                 if (!booking || !booking.email) return;
 
-                // Check for API Key in localstorage
-                let apiKey = localStorage.getItem('appwrite_api_key');
-                if (!apiKey) {
-                    const promptKey = prompt(
-                        'لتأكيد وإرسال البريد الإلكتروني عبر Appwrite، يرجى إدخال مفتاح API Key الخاص بالمشروع (بصلاحيات users.write و messaging.write):\n\nسيتم حفظ المفتاح محلياً في متصفحك بشكل آمن.'
-                    );
-                    if (!promptKey) return;
-                    localStorage.setItem('appwrite_api_key', promptKey.trim());
-                    apiKey = promptKey.trim();
+                // Get API Key from config
+                const apiKey = APPWRITE_CONFIG.apiKey;
+                if (!apiKey || apiKey === 'YOUR_APPWRITE_API_KEY_HERE') {
+                    alert('يرجى أولاً نسخ ولصق مفتاح الـ API Key الخاص بك في ملف appwrite-db.js (في الحقل apiKey) لتتمكن من إرسال البريد الإلكتروني بنقرة واحدة.');
+                    return;
                 }
 
                 if (confirm(`هل أنت متأكد من رغبتك في إرسال بريد تأكيد حجز العمرة لـ ${booking.name} (${booking.email})؟`)) {
@@ -324,16 +320,18 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Refresh Dashboard Data
     async function refreshDashboard() {
-        updateConnectionStatus();
         try {
             const bookings = await DB.getBookings();
             const reviews = await DB.getAllReviews();
+            
+            updateConnectionStatus();
             
             updateStats(bookings, reviews);
             renderBookings(bookings);
             renderReviews(reviews);
         } catch (e) {
             console.error('Error refreshing dashboard data:', e);
+            updateConnectionStatus();
         }
     }
 
