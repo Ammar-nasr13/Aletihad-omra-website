@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="images/logo.png">
+    <link href="https://fonts.googleapis.com/css2?family=Almarai:wght@300;400;700;800&family=Cairo:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+    <title>لوحة التحكم | الاتحاد لخدمات المعتمرين</title>
+</head>
+<body>
+    <!-- Top Header -->
+    <div class="top-header">
+        <div class="container">
+            <div class="top-header-info">
+                <div class="info-item">
+                    <span class="icon"><i class="fa-solid fa-user-shield" aria-hidden="true"></i></span>
+                    <span>لوحة الإدارة والمتابعة الآمنة</span>
+                </div>
+            </div>
+            <div class="info-item">
+                <a href="index.html" style="color: white; text-decoration: none; font-weight: 700;"><i class="fa-solid fa-arrow-left" aria-hidden="true" style="margin-inline-end: 6px;"></i>العودة للموقع الرئيسي</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Admin Wrapper -->
+    <main class="admin-section">
+        <div class="container">
+            <div class="admin-header-row">
+                <h1 class="admin-title">لوحة التحكم وإدارة الحجوزات</h1>
+                <div class="admin-connection-status" id="connectionStatus">
+                    <span class="badge" id="statusBadge">جاري التحقق من الاتصال...</span>
+                </div>
+            </div>
+
+            <!-- Stats Summary Cards -->
+            <div class="admin-stats-grid">
+                <div class="admin-stat-card">
+                    <div class="admin-stat-icon"><i class="fa-solid fa-calendar-check"></i></div>
+                    <div class="admin-stat-info">
+                        <span class="admin-stat-value" id="statBookings">0</span>
+                        <span class="admin-stat-label">إجمالي طلبات الحجز</span>
+                    </div>
+                </div>
+
+                <div class="admin-stat-card">
+                    <div class="admin-stat-icon"><i class="fa-solid fa-star"></i></div>
+                    <div class="admin-stat-info">
+                        <span class="admin-stat-value" id="statAvgRating">0.0</span>
+                        <span class="admin-stat-label">متوسط التقييمات</span>
+                    </div>
+                </div>
+
+                <div class="admin-stat-card">
+                    <div class="admin-stat-icon"><i class="fa-solid fa-comments"></i></div>
+                    <div class="admin-stat-info">
+                        <span class="admin-stat-value" id="statApprovedReviews">0</span>
+                        <span class="admin-stat-label">التقييمات المقبولة</span>
+                    </div>
+                </div>
+
+                <div class="admin-stat-card">
+                    <div class="admin-stat-icon"><i class="fa-solid fa-comment-medical"></i></div>
+                    <div class="admin-stat-info">
+                        <span class="admin-stat-value" id="statPendingReviews">0</span>
+                        <span class="admin-stat-label">تقييمات معلقة للمراجعة</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Admin Tabs Navigation -->
+            <div class="admin-tabs">
+                <button class="admin-tab-btn active" data-tab="bookingsTab">طلبات الحجز</button>
+                <button class="admin-tab-btn" data-tab="reviewsTab">إدارة التقييمات</button>
+            </div>
+
+            <!-- Tabs Content -->
+            <!-- 1. Bookings Tab -->
+            <div class="admin-tab-content active" id="bookingsTab">
+                <div class="admin-card">
+                    <div class="admin-card-header">
+                        <h3>قائمة الحجوزات الواردة</h3>
+                        <span class="badge badge-approved" id="bookingCountLabel">0 حجز</span>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="admin-table">
+                            <thead>
+                                <tr>
+                                    <th>تاريخ التقديم</th>
+                                    <th>الاسم</th>
+                                    <th>رقم الهاتف</th>
+                                    <th>البرنامج</th>
+                                    <th>الرحلة والتاريخ</th>
+                                    <th>التسكين</th>
+                                    <th>المقاعد والأسرة</th>
+                                    <th>ملاحظات</th>
+                                    <th>إجراءات</th>
+                                </tr>
+                            </thead>
+                            <tbody id="bookingsTableBody">
+                                <tr>
+                                    <td colspan="9" class="admin-empty-state">جاري تحميل بيانات الحجوزات...</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2. Reviews Tab -->
+            <div class="admin-tab-content" id="reviewsTab">
+                <!-- Pending Reviews Card -->
+                <div class="admin-card" style="margin-bottom: 40px;">
+                    <div class="admin-card-header" style="background: rgba(217, 119, 6, 0.03);">
+                        <h3 style="color: #d97706;">تقييمات بانتظار المراجعة والموافقة</h3>
+                        <span class="badge badge-pending" id="pendingReviewsCountLabel">0 معلق</span>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="admin-table">
+                            <thead>
+                                <tr>
+                                    <th>تاريخ الإرسال</th>
+                                    <th>الاسم</th>
+                                    <th>التقييم</th>
+                                    <th>التعليق</th>
+                                    <th>إجراءات</th>
+                                </tr>
+                            </thead>
+                            <tbody id="pendingReviewsTableBody">
+                                <tr>
+                                    <td colspan="5" class="admin-empty-state">لا توجد تقييمات معلقة حالياً.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Approved Reviews Card -->
+                <div class="admin-card">
+                    <div class="admin-card-header">
+                        <h3>التقييمات المقبولة (المعروضة على الموقع)</h3>
+                        <span class="badge badge-approved" id="approvedReviewsCountLabel">0 مقبول</span>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="admin-table">
+                            <thead>
+                                <tr>
+                                    <th>تاريخ الموافقة</th>
+                                    <th>الاسم</th>
+                                    <th>التقييم</th>
+                                    <th>التعليق</th>
+                                    <th>إجراءات</th>
+                                </tr>
+                            </thead>
+                            <tbody id="approvedReviewsTableBody">
+                                <tr>
+                                    <td colspan="5" class="admin-empty-state">لا توجد تقييمات مقبولة معروضة.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer" style="margin-top: 0; padding: 20px 0; background: var(--secondary-color); color: white;">
+        <div class="container footer-bottom" style="border: none; margin-top: 0; padding-top: 0; text-align: center;">
+            <p>© 2026 لوحة إدارة الاتحاد لخدمات المعتمرين. جميع الحقوق محفوظة.</p>
+        </div>
+    </footer>
+
+    <!-- Appwrite Client SDK & Service JS -->
+    <script src="https://cdn.jsdelivr.net/npm/appwrite@14.0.0"></script>
+    <script src="appwrite-db.js"></script>
+    <script src="admin.js"></script>
+</body>
+</html>

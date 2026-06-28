@@ -71,4 +71,46 @@ document.addEventListener('DOMContentLoaded', function () {
 
   // Accessibility: close on ESC
   document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeModal(); });
+
+  // Lightbox functionality
+  const lightbox = document.getElementById('imageLightbox');
+  const lightboxImg = document.getElementById('lightboxImage');
+  const lightboxClose = document.querySelector('.lightbox-close');
+  const guideImage = document.querySelector('.guide-image');
+
+  if (guideImage && lightbox && lightboxImg) {
+    guideImage.addEventListener('click', function() {
+      const img = guideImage.querySelector('img');
+      if (img) {
+        lightboxImg.src = img.src;
+        lightbox.style.display = 'flex';
+        // force reflow for transitions
+        lightbox.offsetHeight;
+        lightbox.classList.add('active');
+        document.body.style.overflow = 'hidden';
+      }
+    });
+
+    function closeLightbox() {
+      lightbox.classList.remove('active');
+      setTimeout(() => {
+        lightbox.style.display = 'none';
+        lightboxImg.src = '';
+      }, 300);
+      document.body.style.overflow = '';
+    }
+
+    if (lightboxClose) lightboxClose.addEventListener('click', closeLightbox);
+    lightbox.addEventListener('click', function(e) {
+      if (e.target === lightbox || e.target.classList.contains('lightbox-content')) {
+        closeLightbox();
+      }
+    });
+
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape' && lightbox.classList.contains('active')) {
+        closeLightbox();
+      }
+    });
+  }
 });
