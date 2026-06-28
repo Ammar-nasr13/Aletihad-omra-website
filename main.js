@@ -418,4 +418,12 @@
 
             // Initial Load
             loadReviews();
+
+            // Realtime Updates for Reviews (listening to additions, approvals, deletions)
+            if (DB.isAppwriteActive()) {
+                DB.subscribeToCollection('reviews', (response) => {
+                    console.log('Realtime event received on reviews:', response.events);
+                    loadReviews();
+                });
+            }
         })();

@@ -11,15 +11,16 @@ const APPWRITE_CONFIG = {
 };
 
 let databasesInstance = null;
+let clientInstance = null;
 
 // Initialize Appwrite
 if (typeof Appwrite !== 'undefined') {
     try {
-        const client = new Appwrite.Client();
-        client
+        clientInstance = new Appwrite.Client();
+        clientInstance
             .setEndpoint(APPWRITE_CONFIG.endpoint)
             .setProject(APPWRITE_CONFIG.projectId);
-        databasesInstance = new Appwrite.Databases(client);
+        databasesInstance = new Appwrite.Databases(clientInstance);
         console.log('Appwrite SDK initialized successfully.');
     } catch (e) {
         console.error('Failed to initialize Appwrite Client:', e);
@@ -285,5 +286,21 @@ const DB = {
             }
         }
         return { success: false, message: 'الاتصال بخدمة Appwrite غير نشط حالياً. يرجى تهيئة الكولكشنز في Appwrite Cloud أولاً.' };
+    },
+
+    // Realtime subscription helper
+    subscribeToCollection(collectionName, callback) {
+        if (clientInstance && typeof Appwrite !== 'undefined') {
+            try {
+                const collectionId = APPWRITE_CONFIG.collections[collectionName];
+                const channel = `databases.${APPWRITE_CONFIG.databaseId}.collections.${collectionId}.documents`;
+                return clientInstance.subscribe(channel, response => {
+                    callback(response);
+                });
+            } catch (e) {
+                console.error(`Appwrite Realtime subscription error for ${collectionName}:`, e);
+            }
+        }
+        return null;
     }
 };
