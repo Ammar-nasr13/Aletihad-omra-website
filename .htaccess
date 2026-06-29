@@ -1,14 +1,31 @@
 # Enable Rewrite Engine
 RewriteEngine On
 
-# Redirect /filename.html to /filename (Clean URLs redirect)
+# 1. Redirect HTTP to HTTPS (Server-side 301 Redirect)
+RewriteCond %{HTTPS} off
+RewriteCond %{HTTP_HOST} !^localhost$ [NC]
+RewriteCond %{HTTP_HOST} !^127\.0\.0\.1$ [NC]
+RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
+
+# 2. Redirect WWW to non-WWW (Canonical URL Unification)
+RewriteCond %{HTTP_HOST} ^www\.(.+)$ [NC]
+RewriteRule ^ https://%1%{REQUEST_URI} [R=301,L]
+
+# 3. Redirect /filename.html to /filename (Clean URLs redirect)
 RewriteCond %{THE_REQUEST} \s/+(.*?)\.html\s [NC]
 RewriteRule ^ /%1 [R=301,L]
 
-# Internal rewrite to map clean URLs back to HTML files (e.g., /programs to /programs.html)
+# 4. Internal rewrite to map clean URLs back to HTML files (e.g., /programs to /programs.html)
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_FILENAME}\.html -f
 RewriteRule ^(.*)$ $1.html [NC,L]
+
+# 5. Redirect old educational files to 410 Gone (SEO Index Cleanup)
+Redirect 410 /level1.html
+Redirect 410 /level3.html
+
+# 6. Custom 404 Page (Handles soft 404 warnings)
+ErrorDocument 404 /404.html
 
 # --- PERFORMANCE OPTIMIZATIONS ---
 

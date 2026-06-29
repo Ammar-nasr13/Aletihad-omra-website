@@ -129,18 +129,19 @@ window.showSuccessModal = function(title, message, whatsappUrl = null) {
         }
 
         function animateStats() {
-            const statNumbers = document.querySelectorAll('.stat-number');
-            statNumbers.forEach(stat => {
+            const statValues = document.querySelectorAll('.stat-value');
+            statValues.forEach(stat => {
                 const target = parseInt(stat.textContent);
+                if (isNaN(target)) return;
                 let current = 0;
                 const increment = target / 50;
                 const timer = setInterval(() => {
                     current += increment;
                     if (current >= target) {
-                        stat.textContent = target + '%';
+                        stat.textContent = target;
                         clearInterval(timer);
                     } else {
-                        stat.textContent = Math.floor(current) + '%';
+                        stat.textContent = Math.floor(current);
                     }
                 }, 30);
             });

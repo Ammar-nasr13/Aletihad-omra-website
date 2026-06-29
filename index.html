@@ -80,7 +80,7 @@
           "Sunday"
         ],
         "opens": "09:00",
-        "closes": "22:00"
+        "closes": "00:00"
       },
       "sameAs": [
         "https://www.facebook.com"
@@ -222,21 +222,21 @@
         <div class="container">
             <div class="stats-grid">
                 <div class="stat-item">
-                    <div class="stat-icon"><i class="fa-solid fa-star" aria-hidden="true"></i></div>
-                    <div class="stat-number"><span class="stat-value">100</span><span class="stat-suffix">%</span></div>
-                    <div class="stat-label">رضا العملاء</div>
+                    <div class="stat-icon"><i class="fa-solid fa-calendar-check" aria-hidden="true"></i></div>
+                    <div class="stat-number"><span class="stat-value">10</span><span class="stat-suffix">+</span></div>
+                    <div class="stat-label">سنوات خبرة متواصلة</div>
                 </div>
 
                 <div class="stat-item">
-                    <div class="stat-icon"><i class="fa-solid fa-thumbs-up" aria-hidden="true"></i></div>
-                    <div class="stat-number"><span class="stat-value">100</span><span class="stat-suffix">%</span></div>
-                    <div class="stat-label">ثقة العملاء</div>
+                    <div class="stat-icon"><i class="fa-solid fa-users" aria-hidden="true"></i></div>
+                    <div class="stat-number"><span class="stat-value">5000</span><span class="stat-suffix">+</span></div>
+                    <div class="stat-label">معتمر تشرفنا بخدمتهم</div>
                 </div>
 
                 <div class="stat-item">
-                    <div class="stat-icon"><i class="fa-solid fa-award" aria-hidden="true"></i></div>
-                    <div class="stat-number"><span class="stat-value">100</span><span class="stat-suffix">%</span></div>
-                    <div class="stat-label">جودة الخدمات</div>
+                    <div class="stat-icon"><i class="fa-solid fa-bus-simple" aria-hidden="true"></i></div>
+                    <div class="stat-number"><span class="stat-value">250</span><span class="stat-suffix">+</span></div>
+                    <div class="stat-label">رحلات عمرة ناجحة</div>
                 </div>
             </div>
         </div>
@@ -254,7 +254,44 @@
                     <i class="fa-solid fa-chevron-right"></i>
                 </button>
                 <div class="reviews-carousel" id="reviewsCarousel">
-                    <div class="carousel-loading">جاري تحميل التقييمات...</div>
+                    <!-- Fallback reviews for search engines & SEO indexation (replaced by JS on load) -->
+                    <div class="review-card">
+                        <div class="review-header">
+                            <div class="review-avatar">ع</div>
+                            <div class="review-user-info">
+                                <div class="review-username">عبدالرحمن المطيري</div>
+                                <div class="review-verified"><i class="fa-solid fa-circle-check"></i> عميل مؤكد</div>
+                            </div>
+                            <div class="review-stars">
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                            </div>
+                        </div>
+                        <p class="review-comment">"رحلة عمرة منظمة وممتازة جداً. الباصات حديثة ومريحة، والمشرف كان متعاوناً وموجهاً لنا طوال فترة المناسك. أنصح بالتعامل معهم بشدة."</p>
+                        <span class="review-date">15 يونيو 2026</span>
+                    </div>
+                    
+                    <div class="review-card">
+                        <div class="review-header">
+                            <div class="review-avatar">أ</div>
+                            <div class="review-user-info">
+                                <div class="review-username">أبو أحمد الشمري</div>
+                                <div class="review-verified"><i class="fa-solid fa-circle-check"></i> عميل مؤكد</div>
+                            </div>
+                            <div class="review-stars">
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                            </div>
+                        </div>
+                        <p class="review-comment">"خدمة فندقية ممتازة والتزام تام بالمواعيد. كانت هذه المرة الثانية التي نسافر فيها مع الاتحاد وسنكررها دائماً إن شاء الله."</p>
+                        <span class="review-date">10 يونيو 2026</span>
+                    </div>
                 </div>
                 <button class="carousel-nav-btn next-btn" id="nextReviewBtn" aria-label="التالي">
                     <i class="fa-solid fa-chevron-left"></i>

@@ -3162,3 +3162,36 @@
     font-display: swap;
     src: local('Font Awesome 6 Brands');
 }
+
+/* ==========================================================================
+   Program Pricing Styles (SEO & Conversion Enhancement)
+   ========================================================================== */
+.program-price {
+    display: flex;
+    align-items: baseline;
+    gap: 6px;
+    margin: 15px 0 20px 0;
+    padding: 12px 16px;
+    background: var(--bg-light);
+    border-radius: 12px;
+    border-inline-start: 4px solid var(--primary-color);
+    box-shadow: 0 4px 10px rgba(22, 163, 74, 0.03);
+}
+
+.price-label {
+    font-size: 13.5px;
+    color: var(--text-light);
+    font-weight: 600;
+}
+
+.price-value {
+    font-size: 26px;
+    font-weight: 800;
+    color: var(--secondary-color);
+}
+
+.price-currency {
+    font-size: 13px;
+    color: var(--primary-dark);
+    font-weight: 700;
+}
