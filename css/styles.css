@@ -345,32 +345,54 @@
         }
 
         .btn-header-book {
-            background: var(--primary-dark);
+            background: linear-gradient(135deg, var(--primary-light) 0%, var(--primary-dark) 100%);
             color: var(--white);
-            padding: 8px 18px;
+            padding: 10px 24px;
             border-radius: 50px;
             font-weight: 700;
             text-decoration: none;
             font-size: 14px;
-            border: none;
+            border: 1px solid rgba(255, 255, 255, 0.15);
             cursor: pointer;
-            transition: all 0.3s;
-            display: inline-block;
-            box-shadow: 0 4px 12px rgba(21, 128, 61, 0.15);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 14px rgba(22, 163, 74, 0.35);
             font-family: inherit;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-header-book::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                90deg,
+                transparent,
+                rgba(255, 255, 255, 0.25),
+                transparent
+            );
+            transition: 0.5s;
+        }
+
+        .btn-header-book:hover::before {
+            left: 100%;
         }
 
         .btn-header-book:hover {
-            background: var(--secondary-color);
-            transform: translateY(-2px);
-            box-shadow: 0 6px 16px rgba(21, 128, 61, 0.25);
+            transform: translateY(-2.5px);
+            box-shadow: 0 7px 20px rgba(22, 163, 74, 0.5);
+            background: linear-gradient(135deg, #2be46f 0%, #15803d 100%);
         }
 
-        @media (max-width: 480px) {
-            .btn-header-book {
-                padding: 6px 12px;
-                font-size: 13px;
-            }
+        .btn-header-book:active {
+            transform: translateY(1px);
+            box-shadow: 0 2px 8px rgba(22, 163, 74, 0.25);
         }
 
         .menu-toggle {
@@ -3043,4 +3065,100 @@
         width: 100%;
         justify-content: center;
     }
+}
+
+/* ==========================================================================
+   Mobile Header Optimization (Clean & Professional Layout)
+   ========================================================================== */
+@media (max-width: 768px) {
+    /* Hide top-header on mobile to keep interface clean & reduce height */
+    .top-header {
+        display: none !important;
+    }
+
+    /* Keep navbar & small nav compact and professional */
+    .navbar, .nav-small {
+        padding: 8px 0 !important;
+        position: sticky !important;
+        top: 0 !important;
+        background: #ffffff !important;
+        box-shadow: 0 2px 15px rgba(0, 0, 0, 0.05) !important;
+        z-index: 1000 !important;
+    }
+
+    .nav-container, .nav-small .container {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: space-between !important;
+        padding: 0 12px !important;
+        gap: 8px !important;
+        max-width: 100% !important;
+    }
+
+    /* Logo Wrapper and Subtitle adjustment */
+    .logo {
+        display: inline-flex !important;
+        align-items: center !important;
+        gap: 8px !important;
+        font-size: 15.5px !important; /* Compact size */
+        font-weight: 700 !important;
+        color: var(--secondary-color) !important;
+        text-decoration: none !important;
+        white-space: nowrap !important;
+    }
+
+    .logo-img {
+        width: 36px !important;
+        height: 36px !important;
+        border-radius: 50% !important; /* Elegant circular shape */
+        border: 1.5px solid rgba(22, 101, 52, 0.15) !important;
+        background: var(--white) !important;
+        margin: 0 !important;
+    }
+
+    /* Header booking button size adjustment */
+    .btn-header-book {
+        padding: 8px 16px !important;
+        font-size: 13px !important;
+        font-weight: 700 !important;
+        box-shadow: 0 3px 10px rgba(22, 163, 74, 0.25) !important;
+    }
+}
+
+/* Extra support for very small screens (e.g., iPhone SE) */
+@media (max-width: 360px) {
+    .nav-container, .nav-small .container {
+        padding: 0 8px !important;
+        gap: 6px !important;
+    }
+    
+    .logo {
+        font-size: 13.5px !important;
+        gap: 5px !important;
+    }
+
+    .logo-img {
+        width: 32px !important;
+        height: 32px !important;
+    }
+
+    .btn-header-book {
+        padding: 6px 12px !important;
+        font-size: 12px !important;
+    }
+}
+
+/* ==========================================================================
+   Font Display Optimization (Lighthouse Fix)
+   ========================================================================== */
+@font-face {
+    font-family: 'Font Awesome 6 Free';
+    font-display: swap;
+    src: local('Font Awesome 6 Free');
+}
+
+@font-face {
+    font-family: 'Font Awesome 6 Brands';
+    font-display: swap;
+    src: local('Font Awesome 6 Brands');
 }

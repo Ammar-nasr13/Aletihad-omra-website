@@ -146,31 +146,52 @@ window.showSuccessModal = function(title, message, whatsappUrl = null) {
             });
         }
 
-        // Add animation to elements on scroll
-        const animateOnScroll = () => {
-            const elements = document.querySelectorAll('.feature-card, .program-card');
-            elements.forEach((element, index) => {
-                const elementTop = element.getBoundingClientRect().top;
-                const elementBottom = element.getBoundingClientRect().bottom;
-                
-                if (elementTop < window.innerHeight && elementBottom > 0) {
-                    setTimeout(() => {
-                        element.style.opacity = '1';
-                        element.style.transform = 'translateY(0)';
-                    }, index * 100);
-                }
-            });
-        };
-
         // Set initial state
-        document.querySelectorAll('.feature-card, .program-card').forEach(element => {
+        const elementsToAnimate = document.querySelectorAll('.feature-card, .program-card');
+        elementsToAnimate.forEach(element => {
             element.style.opacity = '0';
             element.style.transform = 'translateY(30px)';
             element.style.transition = 'all 0.6s ease';
         });
 
-        window.addEventListener('scroll', animateOnScroll);
-        window.addEventListener('load', animateOnScroll);
+        // Use IntersectionObserver instead of scroll listener to prevent forced reflow (Lighthouse Layout Thrashing)
+        if ('IntersectionObserver' in window) {
+            const observerOptions = {
+                root: null,
+                threshold: 0.1
+            };
+            
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach((entry, index) => {
+                    if (entry.isIntersecting) {
+                        const element = entry.target;
+                        setTimeout(() => {
+                            element.style.opacity = '1';
+                            element.style.transform = 'translateY(0)';
+                        }, index * 100);
+                        observer.unobserve(element); // Stop observing once animated
+                    }
+                });
+            }, observerOptions);
+
+            elementsToAnimate.forEach(element => observer.observe(element));
+        } else {
+            // Fallback for older browsers
+            const animateOnScrollFallback = () => {
+                elementsToAnimate.forEach((element, index) => {
+                    const rect = element.getBoundingClientRect();
+                    if (rect.top < window.innerHeight && rect.bottom > 0) {
+                        setTimeout(() => {
+                            element.style.opacity = '1';
+                            element.style.transform = 'translateY(0)';
+                        }, index * 100);
+                    }
+                });
+            };
+            window.addEventListener('scroll', animateOnScrollFallback);
+            window.addEventListener('load', animateOnScrollFallback);
+            animateOnScrollFallback();
+        }
 
         /* Booking modal and form handling */
         (function () {
