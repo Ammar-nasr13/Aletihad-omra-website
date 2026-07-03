@@ -1,6 +1,6 @@
 // Appwrite and LocalStorage Database Service for Etihad
 const APPWRITE_CONFIG = {
-    endpoint: 'https://appwrite.ammar-nasr13.cloud/v1',
+    endpoint: 'https://appwrite.etihadalmdina.com/v1',
     projectId: '6a403b12001b7893f851',
     databaseId: '6a403b35002eae0e8a44',
     // مفتاح الـ API مشفر بترميز Base64 لمنع فحصه أو حظره تلقائياً من قبل روبوتات الحماية في GitHub
