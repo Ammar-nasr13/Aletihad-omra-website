@@ -129,13 +129,13 @@ htmlFiles.forEach(file => {
     <noscript><link rel="stylesheet" href="css/styles.min.css"></noscript>`;
     html = html.replace(stylesCssPattern, asyncStyleReplacer);
 
-    // Replace script tags with .min.js
-    html = html.replace(/src="js\/appwrite-db.js"/g, 'src="js/appwrite-db.min.js"');
-    html = html.replace(/src="js\/main.js"/g, 'src="js/main.min.js"');
-    html = html.replace(/src="js\/manasek.js"/g, 'src="js/manasek.min.js"');
-    html = html.replace(/src="js\/login.js"/g, 'src="js/login.min.js"');
-    html = html.replace(/src="js\/admin.js"/g, 'src="js/admin.min.js"');
-    html = html.replace(/src="js\/whatsapp-chat.js"/g, 'src="js/whatsapp-chat.min.js"');
+    // Replace script tags with .min.js and add versioning cache buster
+    html = html.replace(/src="js\/appwrite-db.js(\?v=[^"]*)?"/g, 'src="js/appwrite-db.min.js?v=2.1"');
+    html = html.replace(/src="js\/main.js(\?v=[^"]*)?"/g, 'src="js/main.min.js?v=2.1"');
+    html = html.replace(/src="js\/manasek.js(\?v=[^"]*)?"/g, 'src="js/manasek.min.js?v=2.1"');
+    html = html.replace(/src="js\/login.js(\?v=[^"]*)?"/g, 'src="js/login.min.js?v=2.1"');
+    html = html.replace(/src="js\/admin.js(\?v=[^"]*)?"/g, 'src="js/admin.min.js?v=2.1"');
+    html = html.replace(/src="js\/whatsapp-chat.js(\?v=[^"]*)?"/g, 'src="js/whatsapp-chat.min.js?v=2.1"');
 
     // Replace image tags to use optimized WebP and sizes/srcset
     // Navbar Logo

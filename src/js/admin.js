@@ -1,5 +1,134 @@
 
 document.addEventListener('DOMContentLoaded', function () {
+    // Beautiful Custom Alert Modal
+    function showCustomAlert(title, message, type = 'success') {
+        const existing = document.getElementById('custom-alert-modal');
+        if (existing) existing.remove();
+
+        const modal = document.createElement('div');
+        modal.id = 'custom-alert-modal';
+        modal.style.cssText = `
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(4px);
+            display: flex; align-items: center; justify-content: center;
+            z-index: 100000; font-family: 'Cairo', sans-serif; direction: rtl;
+            opacity: 0; transition: opacity 0.3s ease;
+        `;
+
+        const card = document.createElement('div');
+        const iconColor = type === 'success' ? '#16a34a' : '#dc2626';
+        const iconHtml = type === 'success' 
+            ? '<i class="fa-solid fa-circle-check" style="font-size: 54px; color: #16a34a;"></i>'
+            : '<i class="fa-solid fa-circle-xmark" style="font-size: 54px; color: #dc2626;"></i>';
+
+        card.style.cssText = `
+            background: white; padding: 30px; border-radius: 16px;
+            width: 400px; max-width: calc(100% - 40px); text-align: center;
+            box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1);
+            transform: scale(0.9); transition: transform 0.3s ease;
+        `;
+
+        card.innerHTML = `
+            <div style="margin-bottom: 20px;">${iconHtml}</div>
+            <h3 style="margin: 0 0 10px 0; font-size: 20px; font-weight: 700; color: #1e293b;">${title}</h3>
+            <p style="margin: 0 0 24px 0; font-size: 14px; color: #4b5563; line-height: 1.6; white-space: pre-line;">${message}</p>
+            <button id="custom-alert-close-btn" style="
+                background: ${iconColor}; color: white; border: none;
+                padding: 10px 30px; border-radius: 50px; font-weight: 700;
+                font-size: 14px; cursor: pointer; box-shadow: 0 4px 10px ${iconColor}33;
+                transition: transform 0.2s, background 0.2s;
+            ">حسناً</button>
+        `;
+
+        modal.appendChild(card);
+        document.body.appendChild(modal);
+
+        setTimeout(() => {
+            modal.style.opacity = '1';
+            card.style.transform = 'scale(1)';
+        }, 10);
+
+        const closeBtn = card.querySelector('#custom-alert-close-btn');
+        const closeModal = () => {
+            modal.style.opacity = '0';
+            card.style.transform = 'scale(0.9)';
+            setTimeout(() => modal.remove(), 300);
+        };
+
+        closeBtn.addEventListener('click', closeModal);
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) closeModal();
+        });
+    }
+
+    // Beautiful Custom Confirm Modal
+    function showCustomConfirm(title, message) {
+        return new Promise((resolve) => {
+            const existing = document.getElementById('custom-confirm-modal');
+            if (existing) existing.remove();
+
+            const modal = document.createElement('div');
+            modal.id = 'custom-confirm-modal';
+            modal.style.cssText = `
+                position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+                background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(4px);
+                display: flex; align-items: center; justify-content: center;
+                z-index: 100000; font-family: 'Cairo', sans-serif; direction: rtl;
+                opacity: 0; transition: opacity 0.3s ease;
+            `;
+
+            const card = document.createElement('div');
+            card.style.cssText = `
+                background: white; padding: 30px; border-radius: 16px;
+                width: 420px; max-width: calc(100% - 40px); text-align: center;
+                box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1);
+                transform: scale(0.9); transition: transform 0.3s ease;
+            `;
+
+            card.innerHTML = `
+                <div style="margin-bottom: 20px;"><i class="fa-solid fa-circle-question" style="font-size: 54px; color: #0f766e;"></i></div>
+                <h3 style="margin: 0 0 10px 0; font-size: 20px; font-weight: 700; color: #1e293b;">${title}</h3>
+                <p style="margin: 0 0 24px 0; font-size: 14px; color: #4b5563; line-height: 1.6;">${message}</p>
+                <div style="display: flex; gap: 12px; justify-content: center;">
+                    <button id="custom-confirm-yes-btn" style="
+                        background: #0f766e; color: white; border: none;
+                        padding: 10px 25px; border-radius: 50px; font-weight: 700;
+                        font-size: 14px; cursor: pointer; box-shadow: 0 4px 10px rgba(15,118,110,0.2);
+                        flex: 1;
+                    ">تأكيد</button>
+                    <button id="custom-confirm-no-btn" style="
+                        background: #f1f5f9; color: #4b5563; border: none;
+                        padding: 10px 25px; border-radius: 50px; font-weight: 700;
+                        font-size: 14px; cursor: pointer; flex: 1;
+                    ">إلغاء</button>
+                </div>
+            `;
+
+            modal.appendChild(card);
+            document.body.appendChild(modal);
+
+            setTimeout(() => {
+                modal.style.opacity = '1';
+                card.style.transform = 'scale(1)';
+            }, 10);
+
+            const close = (result) => {
+                modal.style.opacity = '0';
+                card.style.transform = 'scale(0.9)';
+                setTimeout(() => {
+                    modal.remove();
+                    resolve(result);
+                }, 300);
+            };
+
+            card.querySelector('#custom-confirm-yes-btn').addEventListener('click', () => close(true));
+            card.querySelector('#custom-confirm-no-btn').addEventListener('click', () => close(false));
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) close(false);
+            });
+        });
+    }
+
     // DOM Elements
     const statusBadge = document.getElementById('statusBadge');
     const statBookings = document.getElementById('statBookings');
@@ -140,7 +269,8 @@ document.addEventListener('DOMContentLoaded', function () {
         document.querySelectorAll('.delete-booking-btn').forEach(btn => {
             btn.addEventListener('click', async function () {
                 const id = this.getAttribute('data-id');
-                if (confirm('هل أنت متأكد من رغبتك في حذف طلب الحجز هذا نهائياً؟')) {
+                const isConfirmed = await showCustomConfirm('تأكيد الحذف', 'هل أنت متأكد من رغبتك في حذف طلب الحجز هذا نهائياً؟');
+                if (isConfirmed) {
                     this.disabled = true;
                     this.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i>';
                     await DB.deleteBooking(id);
@@ -159,24 +289,25 @@ document.addEventListener('DOMContentLoaded', function () {
                 // Get API Key from config
                 const apiKey = APPWRITE_CONFIG.apiKey;
                 if (!apiKey || apiKey === 'YOUR_APPWRITE_API_KEY_HERE') {
-                    alert('يرجى أولاً نسخ ولصق مفتاح الـ API Key الخاص بك في ملف appwrite-db.js (في الحقل apiKey) لتتمكن من إرسال البريد الإلكتروني بنقرة واحدة.');
+                    showCustomAlert('تنبيه هام', 'يرجى أولاً نسخ ولصق مفتاح الـ API Key الخاص بك في ملف appwrite-db.js (في الحقل apiKey) لتتمكن من إرسال البريد الإلكتروني بنقرة واحدة.', 'error');
                     return;
                 }
 
-                if (confirm(`هل أنت متأكد من رغبتك في إرسال بريد تأكيد حجز العمرة لـ ${booking.name} (${booking.email})؟`)) {
+                const isConfirmed = await showCustomConfirm('تأكيد إرسال البريد', `هل أنت متأكد من رغبتك في إرسال بريد تأكيد حجز العمرة لـ ${booking.name} (${booking.email})؟`);
+                if (isConfirmed) {
                     this.disabled = true;
                     this.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i>';
 
                     try {
                         const emailSent = await sendAppwriteEmail(apiKey, booking);
                         if (emailSent) {
-                            alert('تم إرسال بريد التأكيد للعميل بنجاح!');
+                            showCustomAlert('تم الإرسال', 'تم إرسال بريد التأكيد للعميل بنجاح!', 'success');
                         } else {
-                            alert('فشل إرسال البريد الإلكتروني. يرجى التحقق من مفتاح الـ API وتكوين SMTP في Appwrite.');
+                            showCustomAlert('فشل الإرسال', 'فشل إرسال البريد الإلكتروني. يرجى التحقق من مفتاح الـ API وتكوين SMTP في Appwrite.', 'error');
                         }
                     } catch (error) {
                         console.error(error);
-                        alert('حدث خطأ غير متوقع أثناء إرسال البريد الإلكتروني.');
+                        showCustomAlert('خطأ غير متوقع', 'حدث خطأ غير متوقع أثناء إرسال البريد الإلكتروني.', 'error');
                     } finally {
                         this.disabled = false;
                         this.innerHTML = '<i class="fa-solid fa-envelope"></i>';
@@ -291,7 +422,8 @@ document.addEventListener('DOMContentLoaded', function () {
         document.querySelectorAll('.delete-review-btn').forEach(btn => {
             btn.addEventListener('click', async function () {
                 const id = this.getAttribute('data-id');
-                if (confirm('هل أنت متأكد من رغبتك في حذف هذا التقييم نهائياً؟')) {
+                const isConfirmed = await showCustomConfirm('تأكيد الحذف', 'هل أنت متأكد من رغبتك في حذف هذا التقييم نهائياً؟');
+                if (isConfirmed) {
                     this.disabled = true;
                     this.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i>';
                     await DB.deleteReview(id);
@@ -395,10 +527,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
             try {
                 await DB.saveChatbotConfig(configData);
-                alert('تم حفظ إعدادات الشات بوت بنجاح!');
+                showCustomAlert('تم حفظ الإعدادات', 'تم حفظ إعدادات الشات بوت بنجاح!', 'success');
             } catch (err) {
                 console.error('Error saving chatbot config:', err);
-                alert('حدث خطأ أثناء حفظ الإعدادات، يرجى المحاولة لاحقاً.');
+                showCustomAlert('فشل الحفظ', 'حدث خطأ أثناء حفظ الإعدادات:\n' + (err.message || err), 'error');
             } finally {
                 submitBtn.disabled = false;
                 submitBtn.textContent = originalText;
