@@ -502,7 +502,7 @@ document.addEventListener('DOMContentLoaded', function () {
             const config = await DB.getChatbotConfig();
             if (openaiApiKeyInput) openaiApiKeyInput.value = config.apiKey || '';
             if (openaiModelInput) openaiModelInput.value = config.model || 'gpt-4o-mini';
-            if (chatbotGreetingInput) chatbotGreetingInput.value = config.greetingMessage || 'أهلاً بك أخي المعتمر / أختي المعتمرة في الاتحاد لخدمات المعتمرين. كيف يمكنني مساعدتك اليوم؟';
+            if (chatbotGreetingInput) chatbotGreetingInput.value = config.greetingMessage || '';
             if (chatbotPromptInput) chatbotPromptInput.value = config.systemPrompt || DEFAULT_SYSTEM_PROMPT;
         } catch (err) {
             console.error('Error loading chatbot config:', err);

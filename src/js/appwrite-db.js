@@ -377,7 +377,7 @@ const DB = {
         return {
             apiKey: localStorage.getItem('chatbot_openai_key') || '',
             systemPrompt: localStorage.getItem('chatbot_system_prompt') || '',
-            greetingMessage: localStorage.getItem('chatbot_greeting_message') || 'أهلاً بك أخي المعتمر / أختي المعتمرة في الاتحاد لخدمات المعتمرين. كيف يمكنني مساعدتك اليوم؟',
+            greetingMessage: localStorage.getItem('chatbot_greeting_message') || '',
             model: localStorage.getItem('chatbot_model') || 'gpt-4o-mini'
         };
     },

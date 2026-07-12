@@ -272,11 +272,17 @@
         }
     `;
 
-    const styleEl = document.createElement('style');
-    styleEl.textContent = styles;
-    document.head.appendChild(styleEl);
+    async function runChatbot() {
+        if (!document.body) {
+            setTimeout(runChatbot, 30);
+            return;
+        }
 
-    // 2. Inject HTML into the DOM dynamically
+        const styleEl = document.createElement('style');
+        styleEl.textContent = styles;
+        document.head.appendChild(styleEl);
+
+        // 2. Inject HTML into the DOM dynamically
     const chatWidgetMarkup = `
         <div id="wa-chat-widget" class="wa-chat-widget">
             <button id="wa-chat-trigger" class="wa-chat-trigger" aria-label="محادثة واتساب">
@@ -422,14 +428,14 @@
         if (!config) {
             config = {
                 apiKey: localStorage.getItem('chatbot_openai_key') || '',
-                greetingMessage: localStorage.getItem('chatbot_greeting_message') || 'أهلاً بك أخي المعتمر / أختي المعتمرة في الاتحاد لخدمات المعتمرين. كيف يمكنني مساعدتك اليوم؟',
+                greetingMessage: localStorage.getItem('chatbot_greeting_message') || '',
                 systemPrompt: localStorage.getItem('chatbot_system_prompt') || '',
                 model: localStorage.getItem('chatbot_model') || 'gpt-4o-mini'
             };
         }
 
-        // Add greeting message if chat is empty
-        if (chatBody.children.length === 0) {
+        // Add greeting message if chat is empty and greeting message is set
+        if (chatBody.children.length === 0 && config.greetingMessage) {
             setTimeout(() => {
                 appendMessage('received', config.greetingMessage);
             }, 500);
@@ -609,10 +615,14 @@
         }
     });
 
-    // Initialize config when DOM loads
+        // Initialize config
+        await initChatbotConfig();
+    }
+
+    // Initialize chatbot when DOM is ready
     if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', initChatbotConfig);
+        document.addEventListener('DOMContentLoaded', runChatbot);
     } else {
-        initChatbotConfig();
+        runChatbot();
     }
 })();
