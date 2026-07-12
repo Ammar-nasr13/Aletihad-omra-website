@@ -20,8 +20,8 @@ ensureDir(srcDir);
 ensureDir(path.join(srcDir, 'css'));
 ensureDir(path.join(srcDir, 'js'));
 
-const htmlFiles = ['index.html', 'programs.html', 'manasek.html', 'login.html', 'admin.html', '404.html'];
-const jsFiles = ['main.js', 'manasek.js', 'login.js', 'admin.js', 'appwrite-db.js'];
+const htmlFiles = ['index.html', 'programs.html', 'manasek.html', 'login.html', 'admin.html', '404.html', 'program-manasik.html', 'program-tawaf.html', 'program-maqam.html', 'program-siyaha.html'];
+const jsFiles = ['main.js', 'manasek.js', 'login.js', 'admin.js', 'appwrite-db.js', 'whatsapp-chat.js'];
 
 // Backup HTML files if not already backed up
 htmlFiles.forEach(file => {
@@ -125,7 +125,7 @@ htmlFiles.forEach(file => {
     // Replace render-blocking styles.css with inlined Critical CSS and async styles.min.css loading
     const stylesCssPattern = /<link rel="stylesheet" href="css\/styles.css">/g;
     const asyncStyleReplacer = `<style id="critical-css">${criticalCssMin}</style>
-    <link rel="stylesheet" href="css/styles.min.css" media="print" onload="this.media='all'">
+    <link rel="stylesheet" href="css/styles.min.css" media="print" data-media="all" onload="this.media=this.dataset.media">
     <noscript><link rel="stylesheet" href="css/styles.min.css"></noscript>`;
     html = html.replace(stylesCssPattern, asyncStyleReplacer);
 
@@ -135,6 +135,7 @@ htmlFiles.forEach(file => {
     html = html.replace(/src="js\/manasek.js"/g, 'src="js/manasek.min.js"');
     html = html.replace(/src="js\/login.js"/g, 'src="js/login.min.js"');
     html = html.replace(/src="js\/admin.js"/g, 'src="js/admin.min.js"');
+    html = html.replace(/src="js\/whatsapp-chat.js"/g, 'src="js/whatsapp-chat.min.js"');
 
     // Replace image tags to use optimized WebP and sizes/srcset
     // Navbar Logo

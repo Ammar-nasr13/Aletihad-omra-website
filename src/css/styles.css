@@ -969,23 +969,9 @@
         .feature-text,
         .contact-description,
         .support-subtitle {
-            text-align: justify;
-            text-justify: inter-word;
-            text-align-last: center;
-            hyphens: auto;
+            text-align: center;
             overflow-wrap: anywhere;
             font-weight: 500;
-        }
-
-        /* On very small screens, center short lines for readability */
-        @media (max-width: 480px) {
-            .program-text,
-            .section-description,
-            .feature-desc,
-            .about-lead {
-                text-align: center;
-                text-align-last: center;
-            }
         }
 
         /* Stats Section */

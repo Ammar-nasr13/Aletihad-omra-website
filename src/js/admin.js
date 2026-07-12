@@ -84,7 +84,7 @@ document.addEventListener('DOMContentLoaded', function () {
         if (bookings.length === 0) {
             bookingsTableBody.innerHTML = `
                 <tr>
-                    <td colspan="9" class="admin-empty-state">لا توجد طلبات حجز مسجلة حالياً.</td>
+                    <td colspan="10" class="admin-empty-state">لا توجد طلبات حجز مسجلة حالياً.</td>
                 </tr>
             `;
             return;
@@ -321,6 +321,91 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
+    // Chatbot Settings Form logic
+    const chatbotConfigForm = document.getElementById('chatbotConfigForm');
+    const openaiApiKeyInput = document.getElementById('openaiApiKey');
+    const openaiModelInput = document.getElementById('openaiModel');
+    const chatbotGreetingInput = document.getElementById('chatbotGreeting');
+    const chatbotPromptInput = document.getElementById('chatbotPrompt');
+
+    const DEFAULT_SYSTEM_PROMPT = `أنت المساعد الذكي الافتراضي لشركة "الاتحاد لخدمات المعتمرين" (Etihad Omrah Services).
+مهمتك هي الإجابة على استفسارات العملاء والزوار حول رحلات العمرة والخدمات التي تقدمها الشركة بأدب واحترام وبأسلوب إسلامي ترحيبي دافئ (مثال: "أهلاً بك أخي المعتمر / أختي المعتمرة...").
+
+معلومات الشركة والبرامج المتاحة:
+1. برنامج اتحاد المناسك المسيرة:
+   - برنامج شامل يغطي كافة مناسك العمرة بيسر وتوجيه كامل مع مرافق ديني وإشراف ميداني.
+   - النقل بباصات حديثة ومكيفة من المدينة المنورة، وإقامة مريحة في فنادق مجهزة.
+   - تفاصيل الحجز: متاح لـ 3 أيام أو 4 أيام (مكة والمدينة)، ومناسب للعائلات والأفراد.
+
+2. برنامج اتحاد الطواف الميسر:
+   - خيار سريع واقتصادي وعملي لرحلات نهاية الأسبوع القصيرة لزيارة مكة المكرمة مباشرة وأداء العمرة.
+   - أيام الرحلة: الأربعاء أو الخميس.
+   - تفاصيل الحجز: 3 أيام (مكة فقط).
+
+3. برنامج مقام المعتمر:
+   - باقة إيمانية متكاملة تبدأ بزيارة المدينة المنورة للسلام على رسول الله ثم الانتقال إلى مكة.
+   - مستوى إقامة فاخر (فنادق 4 أو 5 نجوم قريبة جداً من الحرمين).
+   - باصات حديثة ممتازة، تنظيم زيارة الروضة الشريفة والمزارات.
+   - تفاصيل الحجز: 4 أيام (مكة والمدينة).
+
+4. برنامج طواف للسياحة الدينية:
+   - برنامج مرن ومخصص يومياً لزيارة المواقع التاريخية والمزارات الإسلامية في مكة والمدينة المنورة.
+   - جولات سياحية برفقة مرشدين متخصصين.
+   - تفاصيل الحجز: رحلات يومية مرنة (عائلات أو مجموعات)، يمكن تفصيل الحجز بالكامل (بدون فندق أو بفندق).
+
+معلومات التواصل وحجز الرحلات:
+- رقم الهاتف والواتساب الرسمي: 0550784878 (أو بالصيغة الدولية: +966550784878)
+- البريد الإلكتروني: omra@etihadalmdina.com
+- للحجز: وجه العميل للضغط على زر "احجز الآن" الموجود في أعلى الصفحة أو في كروت البرامج، حيث سيفتح له نموذج الحجز مباشرة لملء بياناته.
+- يرجى عدم عرض أي أسعار للرحلات لأن الأسعار غير محددة وتتغير باستمرار بناءً على تواريخ السفر وخيارات الفنادق. اطلب منهم التواصل معنا عبر الواتساب للحصول على السعر الحالي المحدث.
+
+قواعد الاستجابة:
+- كن مختصراً وودوداً. لا تطل الإجابة بدون داعٍ.
+- أجب باللغة العربية الفصحى أو بلهجة سعودية/مصرية بيضاء مبسطة يفهمها الجميع.
+- إذا سألك العميل عن شيء خارج خدمات العمرة وزيارات مكة والمدينة، اعتذر منه بلطف ووجهه للاستفسار عن خدمات العمرة فقط.`;
+
+    async function loadChatbotConfig() {
+        if (!chatbotConfigForm) return;
+        try {
+            const config = await DB.getChatbotConfig();
+            if (openaiApiKeyInput) openaiApiKeyInput.value = config.apiKey || '';
+            if (openaiModelInput) openaiModelInput.value = config.model || 'gpt-4o-mini';
+            if (chatbotGreetingInput) chatbotGreetingInput.value = config.greetingMessage || 'أهلاً بك أخي المعتمر / أختي المعتمرة في الاتحاد لخدمات المعتمرين. كيف يمكنني مساعدتك اليوم؟';
+            if (chatbotPromptInput) chatbotPromptInput.value = config.systemPrompt || DEFAULT_SYSTEM_PROMPT;
+        } catch (err) {
+            console.error('Error loading chatbot config:', err);
+        }
+    }
+
+    if (chatbotConfigForm) {
+        chatbotConfigForm.addEventListener('submit', async function (e) {
+            e.preventDefault();
+            
+            const submitBtn = this.querySelector('button[type="submit"]');
+            const originalText = submitBtn.textContent;
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'جاري الحفظ...';
+
+            const configData = {
+                apiKey: openaiApiKeyInput ? openaiApiKeyInput.value : '',
+                model: openaiModelInput ? openaiModelInput.value : 'gpt-4o-mini',
+                greetingMessage: chatbotGreetingInput ? chatbotGreetingInput.value : '',
+                systemPrompt: chatbotPromptInput ? chatbotPromptInput.value : ''
+            };
+
+            try {
+                await DB.saveChatbotConfig(configData);
+                alert('تم حفظ إعدادات الشات بوت بنجاح!');
+            } catch (err) {
+                console.error('Error saving chatbot config:', err);
+                alert('حدث خطأ أثناء حفظ الإعدادات، يرجى المحاولة لاحقاً.');
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.textContent = originalText;
+            }
+        });
+    }
+
     // Logout Button
     const logoutBtn = document.getElementById('logoutBtn');
     if (logoutBtn) {
@@ -331,13 +416,16 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
+    // Load configuration alongside other data
+    loadChatbotConfig();
+
     // Initial load
     refreshDashboard();
 
     // REST API helper to send transactional email using Appwrite SMTP Messaging and a temporary user
     async function sendAppwriteEmail(apiKey, booking) {
-        const endpoint = 'https://appwrite.ammar-nasr13.cloud/v1';
-        const projectId = '6a403b12001b7893f851';
+        const endpoint = APPWRITE_CONFIG.endpoint;
+        const projectId = APPWRITE_CONFIG.projectId;
         
         try {
             // 1. Create a temporary user with the target email

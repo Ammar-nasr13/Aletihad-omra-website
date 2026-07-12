@@ -34,7 +34,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Almarai:wght@300;400;700;800&family=Cairo:wght@300;400;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" media="print" onload="this.media='all'">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" media="print" data-media="all" onload="this.media=this.dataset.media">
     <link rel="stylesheet" href="css/styles.css">
 
     <!-- Structured Data: HowTo Schema -->
@@ -84,7 +84,7 @@
   <header class="nav-small">
     <div class="container">
       <a href="/" class="logo"><img src="images/logo.png" alt="شعار الاتحاد" class="logo-img" width="52" height="44"> <span>الاتحاد لخدمات المعتمرين</span></a>
-      <a href="programs" class="btn-header-book">احجز الآن</a>
+      <a href="programs.html" class="btn-header-book">احجز الآن</a>
     </div>
   </header>
 
@@ -182,11 +182,11 @@
             <i class="fa-solid fa-house-chimney"></i>
             <span>الرئيسية</span>
         </a>
-        <a href="programs" class="mobile-nav-item">
+        <a href="programs.html" class="mobile-nav-item">
             <i class="fa-solid fa-list-check"></i>
             <span>برامجنا</span>
         </a>
-        <a href="manasek" class="mobile-nav-item active">
+        <a href="manasek.html" class="mobile-nav-item active">
             <i class="fa-solid fa-kaaba"></i>
             <span>المناسك</span>
         </a>
@@ -196,6 +196,9 @@
         </a>
     </nav>
 
+  <script src="https://cdn.jsdelivr.net/npm/appwrite@14.0.1" defer></script>
+  <script src="js/appwrite-db.js" defer></script>
   <script src="js/manasek.js" defer></script>
+  <script src="js/whatsapp-chat.js" defer></script>
 </body>
 </html>

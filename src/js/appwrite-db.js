@@ -337,7 +337,83 @@ const DB = {
                 return { success: false, message: `خطأ من خادم Appwrite: ${message}` };
             }
         }
-        return { success: false, message: 'الاتصال بخدمة Appwrite غير نشط حالياً. يرجى تهيئة الكولكشنز في Appwrite Cloud أولاً.' };
+
+        // Fallback for local development when Appwrite is not active
+        const localAdmins = localStorageDB.get('admins_db');
+        if (localAdmins.length === 0) {
+            // Seed a default admin for local fallback if empty
+            const defaultAdmin = { username: 'admin', password: 'admin123' };
+            localStorageDB.set('admins_db', [defaultAdmin]);
+        }
+
+        const found = localStorageDB.get('admins_db').find(a => a.username === username && a.password === password);
+        if (found) {
+            return { success: true, user: found };
+        }
+        return { success: false, message: 'اسم المستخدم أو كلمة المرور غير صحيحة (وضع التخزين المحلي)' };
+    },
+
+    // CHATBOT CONFIG API
+    async getChatbotConfig() {
+        if (this.isAppwriteActive()) {
+            try {
+                const response = await databasesInstance.listDocuments(
+                    APPWRITE_CONFIG.databaseId,
+                    'chatbot_config'
+                );
+                if (response.documents.length > 0) {
+                    return {
+                        apiKey: response.documents[0].apiKey,
+                        model: response.documents[0].model,
+                        greetingMessage: response.documents[0].greetingMessage,
+                        systemPrompt: response.documents[0].systemPrompt
+                    };
+                }
+            } catch (error) {
+                console.warn('Appwrite chatbot_config collection query failed, using LocalStorage:', error);
+            }
+        }
+        
+        return {
+            apiKey: localStorage.getItem('chatbot_openai_key') || '',
+            systemPrompt: localStorage.getItem('chatbot_system_prompt') || '',
+            greetingMessage: localStorage.getItem('chatbot_greeting_message') || 'أهلاً بك أخي المعتمر / أختي المعتمرة في الاتحاد لخدمات المعتمرين. كيف يمكنني مساعدتك اليوم؟',
+            model: localStorage.getItem('chatbot_model') || 'gpt-4o-mini'
+        };
+    },
+
+    async saveChatbotConfig(configData) {
+        if (this.isAppwriteActive()) {
+            try {
+                const list = await databasesInstance.listDocuments(
+                    APPWRITE_CONFIG.databaseId,
+                    'chatbot_config'
+                );
+                if (list.documents.length > 0) {
+                    await databasesInstance.updateDocument(
+                        APPWRITE_CONFIG.databaseId,
+                        'chatbot_config',
+                        list.documents[0].$id,
+                        configData
+                    );
+                } else {
+                    await databasesInstance.createDocument(
+                        APPWRITE_CONFIG.databaseId,
+                        'chatbot_config',
+                        Appwrite.ID.unique(),
+                        configData
+                    );
+                }
+            } catch (error) {
+                console.warn('Could not save chatbot config to Appwrite, using LocalStorage:', error);
+            }
+        }
+        
+        localStorage.setItem('chatbot_openai_key', configData.apiKey || '');
+        localStorage.setItem('chatbot_system_prompt', configData.systemPrompt || '');
+        localStorage.setItem('chatbot_greeting_message', configData.greetingMessage || '');
+        localStorage.setItem('chatbot_model', configData.model || 'gpt-4o-mini');
+        return { success: true };
     },
 
     // Realtime subscription helper

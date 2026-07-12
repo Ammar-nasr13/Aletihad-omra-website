@@ -42,7 +42,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Almarai:wght@300;400;700;800&family=Cairo:wght@300;400;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" media="print" onload="this.media='all'">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" media="print" data-media="all" onload="this.media=this.dataset.media">
     <link rel="stylesheet" href="css/styles.css">
 
     <!-- Structured Data: TravelAgency -->
@@ -82,9 +82,7 @@
         "opens": "09:00",
         "closes": "00:00"
       },
-      "sameAs": [
-        "https://www.facebook.com"
-      ]
+      "sameAs": []
     }
     </script>
 </head>
@@ -103,7 +101,8 @@
                 </div>
             </div>
             <div class="info-item socials">
-                <a href="https://www.facebook.com" target="_blank" rel="noopener noreferrer" aria-label="فيسبوك" class="social-link"><i class="fa-brands fa-facebook-f" aria-hidden="true"></i></a>
+                <!-- Facebook link temporarily removed as per SEO audit recommendations -->
+                <!-- <a href="https://www.facebook.com" target="_blank" rel="noopener noreferrer" aria-label="فيسبوك" class="social-link"><i class="fa-brands fa-facebook-f" aria-hidden="true"></i></a> -->
                 <a href="https://wa.me/966550784878" target="_blank" rel="noopener noreferrer" aria-label="واتساب" class="social-link" style="margin-inline-start: 8px;"><i class="fa-brands fa-whatsapp" aria-hidden="true"></i></a>
             </div>
         </div>
@@ -118,8 +117,8 @@
             </a>
             <ul class="nav-menu" id="navMenu">
                 <li><a href="#home"><i class="fa-solid fa-house-chimney" aria-hidden="true"></i>الرئيسية</a></li>
-                <li><a href="programs"><i class="fa-solid fa-list-check" aria-hidden="true"></i>برامجنا</a></li>
-                <li><a href="manasek" aria-label="مناسك العمرة"><i class="fa-solid fa-kaaba" aria-hidden="true"></i>مناسك العمرة</a></li>
+                <li><a href="programs.html"><i class="fa-solid fa-list-check" aria-hidden="true"></i>برامجنا</a></li>
+                <li><a href="manasek.html" aria-label="مناسك العمرة"><i class="fa-solid fa-kaaba" aria-hidden="true"></i>مناسك العمرة</a></li>
                 <li><a href="tel:0550784878"><i class="fa-solid fa-phone" aria-hidden="true"></i>تواصل معنا</a></li>
             </ul>
             <button class="btn-header-book book-now-trigger" type="button">احجز الآن</button>
@@ -507,7 +506,7 @@
                 <h4>روابط سريعة</h4>
                 <ul>
                     <li><a href="#home">الرئيسية</a></li>
-                    <li><a href="programs">برامجنا</a></li>
+                    <li><a href="programs.html">برامجنا</a></li>
                     <li><a href="#about">من نحن</a></li>
                 </ul>
             </div>
@@ -542,11 +541,11 @@
             <i class="fa-solid fa-house-chimney"></i>
             <span>الرئيسية</span>
         </a>
-        <a href="programs" class="mobile-nav-item">
+        <a href="programs.html" class="mobile-nav-item">
             <i class="fa-solid fa-list-check"></i>
             <span>برامجنا</span>
         </a>
-        <a href="manasek" class="mobile-nav-item">
+        <a href="manasek.html" class="mobile-nav-item">
             <i class="fa-solid fa-kaaba"></i>
             <span>المناسك</span>
         </a>
@@ -557,7 +556,8 @@
     </nav>
 
 </body>
-<script src="https://cdn.jsdelivr.net/npm/appwrite@14.0.0" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/appwrite@14.0.1" defer></script>
 <script src="js/appwrite-db.js" defer></script>
 <script src="js/main.js" defer></script>
+<script src="js/whatsapp-chat.js" defer></script>
 </html>
