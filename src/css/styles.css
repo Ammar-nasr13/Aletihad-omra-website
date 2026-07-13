@@ -3181,3 +3181,37 @@
     color: var(--primary-dark);
     font-weight: 700;
 }
+
+/* ==========================================================================
+   Mobile Booking Modal Responsive Fixes (X Close Button & Safe Scrolling)
+   ========================================================================== */
+@media (max-width: 768px) {
+    .modal-close {
+        position: fixed !important;
+        right: 25px !important;
+        top: 25px !important;
+        background: var(--white) !important;
+        width: 38px !important;
+        height: 38px !important;
+        border-radius: 50% !important;
+        box-shadow: 0 4px 14px rgba(0,0,0,0.18) !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        font-size: 24px !important;
+        color: var(--text-dark) !important;
+        z-index: 100000 !important;
+        border: 1px solid rgba(0,0,0,0.06) !important;
+        cursor: pointer !important;
+    }
+    .modal-close:hover {
+        background: #f4f6f5 !important;
+        transform: scale(1.05);
+    }
+    .modal-inner {
+        padding-top: 48px !important;
+        padding-bottom: 80px !important; /* Safe padding for submit button above bottom bars */
+        max-height: 84vh !important;
+        position: relative !important;
+    }
+}
