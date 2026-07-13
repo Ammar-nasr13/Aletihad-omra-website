@@ -20,8 +20,11 @@ const MIME_TYPES = {
 };
 
 const server = http.createServer((req, res) => {
+    // Split URL to separate pathname from query parameters
+    const [urlPath] = req.url.split('?');
+
     // Sanitize path to prevent directory traversal
-    let safeUrl = path.normalize(req.url).replace(/^(\.\.[\/\\])+/, '');
+    let safeUrl = path.normalize(urlPath).replace(/^(\.\.[\/\\])+/, '');
     if (safeUrl === '\\' || safeUrl === '/') {
         safeUrl = '/index.html';
     }

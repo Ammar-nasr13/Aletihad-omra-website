@@ -109,12 +109,12 @@ const cleanCss = new CleanCSS({ level: 2 });
             html = html.replace(stylesCssPattern, asyncStyleReplacer);
 
             // Replace script tags with .min.js and add versioning cache buster
-            html = html.replace(/src="js\/appwrite-db.js(\?v=[^"]*)?"/g, 'src="js/appwrite-db.min.js?v=2.1"');
-            html = html.replace(/src="js\/main.js(\?v=[^"]*)?"/g, 'src="js/main.min.js?v=2.1"');
-            html = html.replace(/src="js\/manasek.js(\?v=[^"]*)?"/g, 'src="js/manasek.min.js?v=2.1"');
-            html = html.replace(/src="js\/login.js(\?v=[^"]*)?"/g, 'src="js/login.min.js?v=2.1"');
-            html = html.replace(/src="js\/admin.js(\?v=[^"]*)?"/g, 'src="js/admin.min.js?v=2.1"');
-            html = html.replace(/src="js\/whatsapp-chat.js(\?v=[^"]*)?"/g, 'src="js/whatsapp-chat.min.js?v=2.1"');
+            html = html.replace(/src="js\/appwrite-db.js(\?v=[^"]*)?"/g, 'src="js/appwrite-db.min.js?v=3.0"');
+            html = html.replace(/src="js\/main.js(\?v=[^"]*)?"/g, 'src="js/main.min.js?v=3.0"');
+            html = html.replace(/src="js\/manasek.js(\?v=[^"]*)?"/g, 'src="js/manasek.min.js?v=3.0"');
+            html = html.replace(/src="js\/login.js(\?v=[^"]*)?"/g, 'src="js/login.min.js?v=3.0"');
+            html = html.replace(/src="js\/admin.js(\?v=[^"]*)?"/g, 'src="js/admin.min.js?v=3.0"');
+            html = html.replace(/src="js\/whatsapp-chat.js(\?v=[^"]*)?"/g, 'src="js/whatsapp-chat.min.js?v=3.0"');
 
             // Replace image tags to use optimized WebP and sizes/srcset
             // Navbar Logo
